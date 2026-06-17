@@ -21,15 +21,26 @@ class GPT2TransformerBlock(nn.Module):
         x = x + self.mlp(self.ln_2(x))
         return x`;
 
-const rustCode = `fn main() {
-    let mut engine = GameEngine::init();
-    
-    // Concurrence sécurisée sans Garbage Collector
-    let world_data = Arc::new(Mutex::new(World::new()));
-    
-    engine.run(move |event, control_flow| {
-        update_systems(&world_data);
-    });
+const rustCode = `// Exemple typique d'un système Bevy gérant le mouvement du joueur
+fn move_player(
+    keyboard_input: Res<ButtonInput<KeyCode>>,
+    time: Res<Time>,
+    mut query: Query<(&mut Transform, &Player)>,
+) {
+    if let Ok((mut transform, player)) = query.get_single_mut() {
+        let mut direction = Vec3::ZERO;
+
+        if keyboard_input.pressed(KeyCode::ArrowUp)    { direction.y += 1.0; }
+        if keyboard_input.pressed(KeyCode::ArrowDown)  { direction.y -= 1.0; }
+        if keyboard_input.pressed(KeyCode::ArrowLeft)  { direction.x -= 1.0; }
+        if keyboard_input.pressed(KeyCode::ArrowRight) { direction.x += 1.0; }
+
+        // Mouvement fluide indépendant du framerate grâce à time.delta_seconds()
+        if direction != Vec3::ZERO {
+            transform.translation += direction.normalize() * player.speed * time.delta_seconds();
+        }
+    }
+}
 }`;
 ---
 
@@ -37,7 +48,6 @@ const rustCode = `fn main() {
 	<Navbar />
 	
 	<div class="max-w-2xl mx-auto px-6 py-12 md:py-20">
-		<!-- HEADER / PROFIL -->
 		<header class="mb-16 animate-fade-in" id="profil">
 			<h1 class="text-2xl font-semibold tracking-tight">Arthur Desbiaux</h1>
 			<p class="text-sm text-zinc-500 dark:text-zinc-400 mt-1 mb-6">Ingénieur Intelligence Artificielle</p>
@@ -86,6 +96,26 @@ const rustCode = `fn main() {
 			<section id="projets" class="space-y-6 scroll-mt-20 reveal">
 				<h2 class="text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500 font-semibold">Projets Sélectionnés</h2>
 				<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+					<ProjectCard 
+						title="Rust Game"
+						description="Développement d'un jeu vidéo complet en Rust pour découvrir ce langage."
+						tech="Rust / Bevy"
+						link="https://github.com/adesbx/Touhou_-1_Rust"
+						detailText="
+						Un Shoot 'em up rétro inspiré de l'univers de Touhou, entièrement développé en Rust avec le moteur de jeu ECS (Entity Component System) Bevy. Un projet passion né de la volonté de maîtriser la gestion de la mémoire, la performance brute et l'architecture de systèmes complexes
+						\n
+						De la première ligne de code au dernier pixel, j'ai conçu l'intégralité du projet seul. Cela inclut le développement technique, mais aussi la création complète des assets visuels (sprites/animations) et de l'univers sonore (musiques).
+						\n\n
+						Architecture ECS Pure : Utilisation intensive du paradigme Entity-Component-System de Bevy pour gérer efficacement des centaines d'entités simultanées (projectiles, ennemis, particules) sans baisse de framerate.
+
+						Gestion des Collisions & Danmaku : Implémentation d'un système de patterns de balles (bullet hell) fluide, nécessitant des calculs de trajectoires géométométriques précis et des calculs de collisions optimisés.
+
+						Pipeline CI/CD automatisé : Mise en place de GitHub Actions pour compiler automatiquement le jeu en mode release (.exe), empaqueter les assets, et générer proprement des versions exécutables zippées sans terminal de debug.
+						"
+						imageSrc="/images/rust_game_01.png"
+						codeSnippet={rustCode}
+					/>
 					
 					<ProjectCard 
 						title="GPT-2 From Scratch"
@@ -94,7 +124,7 @@ const rustCode = `fn main() {
 						link="https://github.com/adesbx/gpt2-scratch"
 						detailText="Ce projet consistait à reconstruire l'architecture GPT-2 en utilisant exclusivement PyTorch. L'objectif était de comprendre la structure interne des blocs d'attention (Multi-Head Self-Attention) et des couches de normalisation.\n\nLe modèle a été pré-entraîné sur un corpus de texte réduit afin de valider la convergence de la fonction de perte (Loss) et d'étudier la génération de texte autorégressive."
 						codeSnippet={gpt2Code}
-						// imageSrc="/images/gpt2-preview.png" <- Optionnel : place ton image dans le dossier public/images/
+						imageSrc="/images/rust_game_01.png"
 					/>
 
 					<ProjectCard 
@@ -102,17 +132,7 @@ const rustCode = `fn main() {
 						description="Conception d'une application Web robuste étalée sur 5 mois à l'Université Lyon 1."
 						tech="Vue / Spring"
 						detailText="Développée en binôme sur une période académique complète, cette application assure le suivi en temps réel d'indicateurs de performance.\n\nCôté architecture, nous avons implémenté une API REST sécurisée avec Spring Boot couplée à une interface dynamique et réactive sous Vue.js. Aucun lien public n'est disponible pour des raisons de droits universitaires."
-					/>
-
-					<ProjectCard 
-						title="Rust Game Engine"
-						description="Développement d'un jeu vidéo complet en Rust pour explorer la gestion stricte de la mémoire."
-						tech="Rust / Systems"
-						link="https://github.com/adesbx/rust-game"
-						detailText="Un projet d'exploration système visant à maîtriser les concepts exclusifs de Rust tels que la possession (Ownership), les cycles de vie (Lifetimes) et la concurrence sans instabilité de mémoire.\n\nLe moteur gère un système d'entités-composants (ECS) sur mesure et assure le rendu fluide des éléments graphiques."
-						codeSnippet={rustCode}
-					/>
-					
+					/>					
 				</div>
 			</section>
 
