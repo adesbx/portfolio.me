@@ -1,0 +1,142 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import ExperienceCard from '../components/ExperienceCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import PassionCard from '../components/PassionCard.astro';
+
+// Exemples de blocs de code propres à ton profil
+const gpt2Code = `import torch
+import torch.nn as nn
+
+class GPT2TransformerBlock(nn.Module):
+    def __init__(self, config):
+        super().__init__()
+        self.ln_1 = nn.LayerNorm(config.n_embd)
+        self.attn = SelfAttention(config)
+        self.ln_2 = nn.LayerNorm(config.n_embd)
+        self.mlp = MLP(config)
+
+    def forward(self, x):
+        x = x + self.attn(self.ln_1(x))
+        x = x + self.mlp(self.ln_2(x))
+        return x`;
+
+const rustCode = `fn main() {
+    let mut engine = GameEngine::init();
+    
+    // Concurrence sécurisée sans Garbage Collector
+    let world_data = Arc::new(Mutex::new(World::new()));
+    
+    engine.run(move |event, control_flow| {
+        update_systems(&world_data);
+    });
+}`;
+---
+
+<Layout title="Arthur Desbiaux | Ingénieur IA">
+	<Navbar />
+	
+	<div class="max-w-2xl mx-auto px-6 py-12 md:py-20">
+		<!-- HEADER / PROFIL -->
+		<header class="mb-16 animate-fade-in" id="profil">
+			<h1 class="text-2xl font-semibold tracking-tight">Arthur Desbiaux</h1>
+			<p class="text-sm text-zinc-500 dark:text-zinc-400 mt-1 mb-6">Ingénieur Intelligence Artificielle</p>
+			
+			<p class="text-zinc-600 dark:text-zinc-300 leading-relaxed font-light mb-4">
+				Passionné par l'IA générative et le Machine/Deep Learning, j'interviens de manière proactive sur l'ensemble du cycle de vie des projets, de la phase de cadrage jusqu'à la mise en production.
+			</p>
+
+			<div class="flex flex-wrap items-center gap-4 pt-4">
+				<a href="/CV A DESB v2.0-1.pdf" download="CV_Arthur_Desbiaux.pdf" class="group flex items-center gap-2 px-4 py-2 bg-zinc-900 dark:bg-zinc-100 text-zinc-50 dark:text-zinc-900 text-xs font-medium rounded-lg hover:-translate-y-0.5 hover:shadow-lg hover:shadow-zinc-900/20 dark:hover:shadow-zinc-100/20 transition-all duration-300">
+					<svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+					Télécharger mon CV
+				</a>
+				<div class="flex gap-4 text-xs font-medium text-zinc-500 dark:text-zinc-400 ml-2">
+					<a href="https://github.com/adesbx" target="_blank" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">GitHub</a>
+					<a href="https://linkedin.com/in/arthurdesbiaux" target="_blank" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">LinkedIn</a>
+				</div>
+			</div>
+		</header>
+
+		<main class="space-y-20">
+			<!-- EXPERIENCES -->
+			<section id="experiences" class="space-y-6 animate-fade-in [animation-delay:150ms] scroll-mt-20">
+				<h2 class="text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500 font-semibold">Expériences</h2>
+				<div class="space-y-4">
+					<ExperienceCard 
+						date="Fév. 2025 — Juil. 2025"
+						title="Ingénieur IA (Stage)"
+						company="École Rockefeller"
+						description="Implémentation de modèles prédictifs (Scikit-Learn, PyTorch). Création d'un chatbot LLM basé sur une architecture RAG avec LangChain."
+						link="https://github.com/adesbx/rust-game"
+					/>
+					<ExperienceCard 
+						date="Juin 2023 — Août 2023"
+						title="Développeur Web & Data"
+						company="Tecnea"
+						description="Conception et conteneurisation d'une Webapp d'audit de schémas de BDD relationnelles (Python, Angular, Docker)."
+					/>
+				</div>
+			</section>
+
+			<!-- PROJETS AVEC FENÊTRE DE DÉTAILS -->
+			<section id="projets" class="space-y-6 scroll-mt-20 reveal">
+				<h2 class="text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500 font-semibold">Projets Sélectionnés</h2>
+				<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+					
+					<ProjectCard 
+						title="GPT-2 From Scratch"
+						description="Implémentation complète et entraînement d'un modèle de type GPT-2 pour assimiler les Transformers."
+						tech="PyTorch / LLM"
+						link="https://github.com/adesbx/gpt2-scratch"
+						detailText="Ce projet consistait à reconstruire l'architecture GPT-2 en utilisant exclusivement PyTorch. L'objectif était de comprendre la structure interne des blocs d'attention (Multi-Head Self-Attention) et des couches de normalisation.\n\nLe modèle a été pré-entraîné sur un corpus de texte réduit afin de valider la convergence de la fonction de perte (Loss) et d'étudier la génération de texte autorégressive."
+						codeSnippet={gpt2Code}
+						// imageSrc="/images/gpt2-preview.png" <- Optionnel : place ton image dans le dossier public/images/
+					/>
+
+					<ProjectCard 
+						title="Fullstack Web App"
+						description="Conception d'une application Web robuste étalée sur 5 mois à l'Université Lyon 1."
+						tech="Vue / Spring"
+						detailText="Développée en binôme sur une période académique complète, cette application assure le suivi en temps réel d'indicateurs de performance.\n\nCôté architecture, nous avons implémenté une API REST sécurisée avec Spring Boot couplée à une interface dynamique et réactive sous Vue.js. Aucun lien public n'est disponible pour des raisons de droits universitaires."
+					/>
+
+					<ProjectCard 
+						title="Rust Game Engine"
+						description="Développement d'un jeu vidéo complet en Rust pour explorer la gestion stricte de la mémoire."
+						tech="Rust / Systems"
+						link="https://github.com/adesbx/rust-game"
+						detailText="Un projet d'exploration système visant à maîtriser les concepts exclusifs de Rust tels que la possession (Ownership), les cycles de vie (Lifetimes) et la concurrence sans instabilité de mémoire.\n\nLe moteur gère un système d'entités-composants (ECS) sur mesure et assure le rendu fluide des éléments graphiques."
+						codeSnippet={rustCode}
+					/>
+					
+				</div>
+			</section>
+
+			<!-- PASSIONS -->
+			<section id="passions" class="space-y-6 animate-fade-in [animation-delay:450ms] scroll-mt-20">
+				<h2 class="text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500 font-semibold">Intérêts & Passions</h2>
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+					<PassionCard 
+						title="Création & Dessin"
+						description="Pratique régulière du dessin. Travail du sens du détail visuel et de la créativité, des compétences transposables au design frontend."
+					>
+						<svg slot="icon" class="w-4 h-4 text-zinc-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.886H3.894l4.948 3.596L6.93 18.368 12 14.772l5.07 3.596-1.912-5.886 4.948-3.596h-6.194L12 3z"/></svg>
+					</PassionCard>
+					
+					<PassionCard 
+						title="Musique autodidacte"
+						description="Apprentissage du piano et de la guitare. J'apprécie la rigueur logique et la patience nécessaires à la maîtrise d'un instrument."
+					>
+						<svg slot="icon" class="w-4 h-4 text-zinc-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+					</PassionCard>
+				</div>
+			</section>
+		</main>
+
+		<footer class="mt-24 pt-8 border-t border-zinc-200 dark:border-zinc-800 text-center text-[11px] text-zinc-400 dark:text-zinc-500 font-light">
+			<p>© 2026 Arthur Desbiaux. Conçu avec Astro & Tailwind CSS.</p>
+		</footer>
+	</div>
+</Layout>

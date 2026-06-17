@@ -1,0 +1,32 @@
+---
+---
+<nav class="sticky top-0 z-50 backdrop-blur-md bg-zinc-50/80 dark:bg-zinc-950/80 border-b border-zinc-200 dark:border-zinc-800 transition-colors duration-300">
+    <div class="max-w-2xl mx-auto px-6 h-14 flex justify-between items-center text-xs font-medium text-zinc-500 dark:text-zinc-400">
+        <div class="flex gap-6">
+            <a href="#profil" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Profil</a>
+            <a href="#experiences" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Expériences</a>
+            <a href="#projets" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Projets</a>
+            <a href="#passions" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Passions</a>
+        </div>
+        <button id="theme-btn" class="p-2 rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors" aria-label="Bascule thème">
+            <!-- Icône Soleil -->
+            <svg id="sun-idx" class="w-4 h-4 hidden dark:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+            <!-- Icône Lune -->
+            <svg id="moon-idx" class="w-4 h-4 block dark:hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+        </button>
+    </div>
+</nav>
+
+<script>
+    const btn = document.getElementById('theme-btn');
+    btn?.addEventListener('click', () => {
+        const html = document.documentElement;
+        if (html.classList.contains('dark')) {
+            html.classList.remove('dark');
+            localStorage.theme = 'light';
+        } else {
+            html.classList.add('dark');
+            localStorage.theme = 'dark';
+        }
+    });
+</script>

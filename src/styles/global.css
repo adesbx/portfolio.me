@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* --- ANIMATION AU SCROLL (NATIVE) --- */
+.reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    scale: 0.98;
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                scale 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* État quand l'élément est visible à l'écran */
+.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    scale: 1;
+}
+
+/* --- STYLE DE LA FENÊTRE DIALOG (MODALE) --- */
+dialog::backdrop {
+    background-color: rgba(9, 9, 11, 0.5);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    transition: opacity 0.3s ease-out, display 0.3s ease-out allow-discrete;
+}
+dialog[open]::backdrop {
+    opacity: 1;
+}
+
+dialog {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out, display 0.3s ease-out allow-discrete;
+}
+dialog[open] {
+    opacity: 1;
+    transform: scale(1);
+}
+
+@starting-style {
+    dialog[open] {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    dialog[open]::backdrop {
+        opacity: 0;
+    }
+}

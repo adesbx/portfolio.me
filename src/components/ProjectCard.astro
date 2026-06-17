@@ -1,0 +1,85 @@
+---
+interface Props {
+    title: string;
+    description: string;
+    tech: string;
+    link?: string;
+    detailText: string;
+    codeSnippet?: string;
+    imageSrc?: string; // Optionnel : pour ajouter un screen de ton projet
+}
+
+const { title, description, tech, link, detailText, codeSnippet, imageSrc } = Astro.props;
+---
+
+<div class="project-node">
+    <button class="open-modal-btn w-full text-left p-5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl dark:hover:shadow-zinc-900/50 group cursor-pointer outline-hidden">
+        <div class="flex justify-between items-start mb-2">
+            <h3 class="text-sm font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                {title}
+            </h3>
+            <svg class="w-4 h-4 text-zinc-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+        </div>
+        <p class="text-xs text-zinc-500 dark:text-zinc-400 font-light leading-relaxed mb-4">
+            {description}
+        </p>
+        <span class="text-[10px] font-mono text-zinc-400 dark:text-zinc-500">{tech}</span>
+    </button>
+
+    <dialog class="project-dialog fixed inset-0 m-auto max-w-xl w-[calc(100%-2rem)] max-h-[85vh] p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 shadow-2xl overflow-y-auto outline-hidden">
+        
+        <div class="flex justify-between items-start mb-6 border-b border-zinc-200 dark:border-zinc-800 pb-4">
+            <div>
+                <span class="text-[10px] font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500">{tech}</span>
+                <h2 class="text-base font-medium text-zinc-900 dark:text-zinc-100 mt-0.5">{title}</h2>
+            </div>
+            <button class="close-modal-btn p-1.5 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-900 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors cursor-pointer outline-hidden">
+                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+            </button>
+        </div>
+
+        <div class="space-y-6 text-xs font-light leading-relaxed text-zinc-600 dark:text-zinc-300">
+            
+            {imageSrc && (
+                <div class="overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900">
+                    <img src={imageSrc} alt={`Capture d'écran de ${title}`} class="w-full h-auto object-cover max-h-60" />
+                </div>
+            )}
+
+            <p class="whitespace-pre-line">{detailText}</p>
+
+            {codeSnippet && (
+                <div class="space-y-2 pt-2">
+                    <span class="text-[10px] font-mono text-zinc-400 dark:text-zinc-500 font-normal">Aperçu du code :</span>
+                    <pre class="p-4 rounded-xl bg-zinc-900 text-zinc-100 font-mono text-[11px] overflow-x-auto border border-zinc-800 selection:bg-zinc-700"><code>{codeSnippet}</code></pre>
+                </div>
+            )}
+        </div>
+
+        {link && (
+            <div class="mt-8 pt-4 border-t border-zinc-200 dark:border-zinc-800 flex justify-end">
+                <a href={link} target="_blank" class="flex items-center gap-2 px-4 py-2 bg-zinc-900 dark:bg-zinc-100 text-zinc-50 dark:text-zinc-900 text-xs font-medium rounded-lg hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 outline-hidden">
+                    Voir la référence GitHub
+                    <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg>
+                </a>
+            </div>
+        )}
+    </dialog>
+</div>
+
+<script>
+    // Évite les conflits d'ID en gérant les clics par arborescence relative
+    document.querySelectorAll('.project-node').forEach((node) => {
+        const openBtn = node.querySelector('.open-modal-btn');
+        const closeBtn = node.querySelector('.close-modal-btn');
+        const dialog = node.querySelector('.project-dialog') as HTMLDialogElement;
+
+        openBtn?.addEventListener('click', () => dialog?.showModal());
+        closeBtn?.addEventListener('click', () => dialog?.close());
+        
+        // Ferme si on clique sur le flou d'arrière-plan
+        dialog?.addEventListener('click', (e) => {
+            if (e.target === dialog) dialog.close();
+        });
+    });
+</script>
