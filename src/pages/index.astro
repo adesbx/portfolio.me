@@ -40,7 +40,6 @@ fn move_player(
             transform.translation += direction.normalize() * player.speed * time.delta_seconds();
         }
     }
-}
 }`;
 ---
 
@@ -94,7 +93,7 @@ fn move_player(
 			</section>
 
 			<section id="projets" class="space-y-6 scroll-mt-20 reveal">
-				<h2 class="text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500 font-semibold">Projets Sélectionnés</h2>
+				<h2 class="text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500 font-semibold">Projets</h2>
 				<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
 					<ProjectCard 
@@ -153,14 +152,61 @@ fn move_player(
 					</ProjectCard>
 					
 					<ProjectCard 
-						title="GPT-2 From Scratch"
-						description="Implémentation complète et entraînement d'un modèle de type GPT-2 pour assimiler les Transformers."
-						tech="PyTorch / LLM"
-						link="https://github.com/adesbx/gpt2-scratch"
-						detailText="Ce projet consistait à reconstruire l'architecture GPT-2 en utilisant exclusivement PyTorch. L'objectif était de comprendre la structure interne des blocs d'attention (Multi-Head Self-Attention) et des couches de normalisation.\n\nLe modèle a été pré-entraîné sur un corpus de texte réduit afin de valider la convergence de la fonction de perte (Loss) et d'étudier la génération de texte autorégressive."
-						codeSnippet={gpt2Code}
-						imageSrc="/images/rust_game_01.png"
-					/>
+						title="homicide Analysis"
+						description="Ce projet explore les dynamiques globales des homicides à travers le monde en combinant l'analyse statistique classique et la théorie des graphes."
+						tech="Python / Pandas / Numpy"
+						link="https://github.com/adesbx/homicideAnalysis"
+					>
+						<p>
+							Une étude approfondie de <strong>Data Mining</strong> axée sur la criminalité mondiale, entièrement développée en Python dans le cadre de mon Master 2 en Intelligence Artificielle. Ce projet combine l'analyse statistique classique et la théorie des réseaux pour modéliser et comprendre les structures globales des homicides et leurs disparités de genre.
+						</p>
+
+						<div class="overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 my-4 shadow-xs">
+							<img src="/images/homicide_analytics_01.png" alt="Dashboard et distribution des taux d'homicides mondiaux" class="w-full h-auto object-cover" />
+						</div>
+
+						<ul class="space-y-4 pt-2">
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<span>
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Modélisation en Graphe (NetworkX) :</strong> 
+									Conception d'une matrice de similarité convertissant les données démographiques des pays en nœuds interconnectés. Deux nations sont liées si leurs profils et dynamiques de criminalité partagent une proximité statistique stricte.
+								</span>
+							</li>
+
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<span>
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Analyse Algorithmique de Centralité :</strong> 
+									Exploration de la composante connexe via les métriques de degré, de proximité (closeness) et d'intermédialité (betweenness) pour identifier mathématiquement les pays "pivots" agissant comme passerelles entre différents profils de violence.
+								</span>
+							</li>
+
+							<div class="overflow-hidden rounded-xl border border-zinc-200 border-zinc-800 bg-zinc-100 dark:bg-zinc-900/60 my-3 shadow-xs p-4 flex justify-center"> 
+								<img 
+									src="/images/homicide_analytics_02.png" 
+									alt="Degree centrality sur le graph" 
+									class="max-w-full max-h-64 object-contain" 
+								/> 
+							</div>
+							
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<span>
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Segmentation de Genre & Conclusions :</strong> 
+									Mise en évidence de clusters criminologiques transfrontaliers et validation statistique d'une forte asymétrie des genres (surreprésentation masculine des victimes corrélée aux zones d'activité de criminalité organisée).
+								</span>
+							</li>
+
+							<div class="overflow-hidden rounded-xl border border-zinc-200 border-zinc-800 bg-zinc-100 dark:bg-zinc-900/60 my-3 shadow-xs p-4 flex justify-center"> 
+								<img 
+									src="/images/homicide_analytics_03.png" 
+									alt="Clustering des données" 
+									class="max-w-full max-h-64 object-contain" 
+								/> 
+							</div>
+						</ul>
+					</ProjectCard>
 
 					<ProjectCard 
 						title="Fullstack Web App"
