@@ -102,20 +102,55 @@ fn move_player(
 						description="Développement d'un jeu vidéo complet en Rust pour découvrir ce langage."
 						tech="Rust / Bevy"
 						link="https://github.com/adesbx/Touhou_-1_Rust"
-						detailText="
-						Un Shoot 'em up rétro inspiré de l'univers de Touhou, entièrement développé en Rust avec le moteur de jeu ECS (Entity Component System) Bevy. Un projet passion né de la volonté de maîtriser la gestion de la mémoire, la performance brute et l'architecture de systèmes complexes
-						\n
-						De la première ligne de code au dernier pixel, j'ai conçu l'intégralité du projet seul. Cela inclut le développement technique, mais aussi la création complète des assets visuels (sprites/animations) et de l'univers sonore (musiques).
-						\n\n
-						Architecture ECS Pure : Utilisation intensive du paradigme Entity-Component-System de Bevy pour gérer efficacement des centaines d'entités simultanées (projectiles, ennemis, particules) sans baisse de framerate.
-
-						Gestion des Collisions & Danmaku : Implémentation d'un système de patterns de balles (bullet hell) fluide, nécessitant des calculs de trajectoires géométométriques précis et des calculs de collisions optimisés.
-
-						Pipeline CI/CD automatisé : Mise en place de GitHub Actions pour compiler automatiquement le jeu en mode release (.exe), empaqueter les assets, et générer proprement des versions exécutables zippées sans terminal de debug.
-						"
-						imageSrc="/images/rust_game_01.png"
 						codeSnippet={rustCode}
-					/>
+					>
+						<p>
+							Un <strong>Shoot 'em up rétro</strong> inspiré de l'univers de Touhou, entièrement développé en Rust avec le moteur de jeu ECS (Entity Component System) Bevy. Un projet passion né de la volonté de maîtriser la gestion de la mémoire, la performance brute et l'architecture de systèmes complexes.
+						</p>
+
+						<div class="overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 my-4 shadow-xs">
+							<img src="/images/rust_game_01.png" alt="Gameplay de Rust Game" class="w-full h-auto object-cover" />
+						</div>
+
+						<p>
+							De la première ligne de code au dernier pixel, j'ai conçu l'intégralité du projet seul. Cela inclut le développement technique, mais aussi la création complète des assets visuels (sprites/animations) et de l'univers sonore (musiques).
+						</p>
+
+						<div class="overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900/60 my-3 shadow-xs p-4 flex justify-center"> 
+							<img 
+								src="/images/rust_game_02.png" 
+								alt="Exemple de sprite_sheet réalisé par mes soins" 
+								class="max-w-full max-h-64 object-contain [image-rendering:pixelated]" 
+							/> 
+						</div>
+
+						<ul class="space-y-4 pt-2">
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<span>
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Architecture ECS Pure :</strong> 
+									Utilisation intensive du paradigme Entity-Component-System de Bevy pour gérer efficacement des centaines d'entités simultanées (projectiles, ennemis, particules) sans baisse de framerate.
+								</span>
+							</li>
+						
+
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<span>
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Gestion des Collisions & Danmaku :</strong> 
+									Implémentation d'un système de patterns de balles (bullet hell) fluide, nécessitant des calculs de trajectoires géométriques précis et des calculs de collisions optimisés.
+								</span>
+							</li>
+							
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<span>
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Pipeline CI/CD automatisé :</strong> 
+									Mise en place de GitHub Actions pour compiler automatiquement le jeu en mode release (.exe), empaqueter les assets, et générer proprement des versions exécutables zippées sans terminal de debug.
+								</span>
+							</li>
+						</ul>
+					</ProjectCard>
 					
 					<ProjectCard 
 						title="GPT-2 From Scratch"

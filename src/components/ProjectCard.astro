@@ -4,15 +4,14 @@ interface Props {
     description: string;
     tech: string;
     link?: string;
-    detailText: string;
     codeSnippet?: string;
-    imageSrc?: string; // Optionnel : pour ajouter un screen de ton projet
 }
 
-const { title, description, tech, link, detailText, codeSnippet, imageSrc } = Astro.props;
+const { title, description, tech, link, codeSnippet } = Astro.props;
 ---
 
 <div class="project-node">
+    <!-- La carte (Preview) -->
     <button class="open-modal-btn w-full text-left p-5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl dark:hover:shadow-zinc-900/50 group cursor-pointer outline-hidden">
         <div class="flex justify-between items-start mb-2">
             <h3 class="text-sm font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
@@ -26,8 +25,10 @@ const { title, description, tech, link, detailText, codeSnippet, imageSrc } = As
         <span class="text-[10px] font-mono text-zinc-400 dark:text-zinc-500">{tech}</span>
     </button>
 
+    <!-- La Fenêtre Modale cachée -->
     <dialog class="project-dialog fixed inset-0 m-auto max-w-xl w-[calc(100%-2rem)] max-h-[85vh] p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 shadow-2xl overflow-y-auto outline-hidden">
         
+        <!-- Header -->
         <div class="flex justify-between items-start mb-6 border-b border-zinc-200 dark:border-zinc-800 pb-4">
             <div>
                 <span class="text-[10px] font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500">{tech}</span>
@@ -38,16 +39,12 @@ const { title, description, tech, link, detailText, codeSnippet, imageSrc } = As
             </button>
         </div>
 
-        <div class="space-y-6 text-xs font-light leading-relaxed text-zinc-600 dark:text-zinc-300">
+        <!-- Corps de la modale (Le Slot accueille tout ton contenu personnalisé) -->
+        <div class="space-y-4 text-xs font-light leading-relaxed text-zinc-600 dark:text-zinc-300">
             
-            {imageSrc && (
-                <div class="overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900">
-                    <img src={imageSrc} alt={`Capture d'écran de ${title}`} class="w-full h-auto object-cover max-h-60" />
-                </div>
-            )}
+            <slot /> <!-- C'est ici que ton texte et tes images vont s'injecter ! -->
 
-            <p class="whitespace-pre-line">{detailText}</p>
-
+            <!-- Code source (toujours positionné proprement à la fin si fourni) -->
             {codeSnippet && (
                 <div class="space-y-2 pt-2">
                     <span class="text-[10px] font-mono text-zinc-400 dark:text-zinc-500 font-normal">Aperçu du code :</span>
@@ -56,6 +53,7 @@ const { title, description, tech, link, detailText, codeSnippet, imageSrc } = As
             )}
         </div>
 
+        <!-- Footer -->
         {link && (
             <div class="mt-8 pt-4 border-t border-zinc-200 dark:border-zinc-800 flex justify-end">
                 <a href={link} target="_blank" class="flex items-center gap-2 px-4 py-2 bg-zinc-900 dark:bg-zinc-100 text-zinc-50 dark:text-zinc-900 text-xs font-medium rounded-lg hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 outline-hidden">
@@ -68,7 +66,6 @@ const { title, description, tech, link, detailText, codeSnippet, imageSrc } = As
 </div>
 
 <script>
-    // Évite les conflits d'ID en gérant les clics par arborescence relative
     document.querySelectorAll('.project-node').forEach((node) => {
         const openBtn = node.querySelector('.open-modal-btn');
         const closeBtn = node.querySelector('.close-modal-btn');
@@ -76,8 +73,6 @@ const { title, description, tech, link, detailText, codeSnippet, imageSrc } = As
 
         openBtn?.addEventListener('click', () => dialog?.showModal());
         closeBtn?.addEventListener('click', () => dialog?.close());
-        
-        // Ferme si on clique sur le flou d'arrière-plan
         dialog?.addEventListener('click', (e) => {
             if (e.target === dialog) dialog.close();
         });
