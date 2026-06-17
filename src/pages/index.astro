@@ -5,7 +5,6 @@ import ExperienceCard from '../components/ExperienceCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import PassionCard from '../components/PassionCard.astro';
 
-// Exemples de blocs de code propres à ton profil
 const gpt2Code = `import torch
 import torch.nn as nn
 
@@ -44,9 +43,8 @@ const rustCode = `fn main() {
 			<p class="text-sm text-zinc-500 dark:text-zinc-400 mt-1 mb-6">Ingénieur Intelligence Artificielle</p>
 			
 			<p class="text-zinc-600 dark:text-zinc-300 leading-relaxed font-light mb-4">
-				Passionné par l'IA générative et le Machine/Deep Learning, j'interviens de manière proactive sur l'ensemble du cycle de vie des projets, de la phase de cadrage jusqu'à la mise en production.
+				Passionné par l'IA générative et le Machine/Deep Learning, j'interviens de manière proactive sur l'ensemble du cycle de vie des projets, de la phase de cadrage jusqu'à la mise en production. J'ai notamment pu éprouver cette approche lors d'un projet clé mené pour l'École Rockefeller.			
 			</p>
-
 			<div class="flex flex-wrap items-center gap-4 pt-4">
 				<a href="/CV A DESB v2.0-1.pdf" download="CV_Arthur_Desbiaux.pdf" class="group flex items-center gap-2 px-4 py-2 bg-zinc-900 dark:bg-zinc-100 text-zinc-50 dark:text-zinc-900 text-xs font-medium rounded-lg hover:-translate-y-0.5 hover:shadow-lg hover:shadow-zinc-900/20 dark:hover:shadow-zinc-100/20 transition-all duration-300">
 					<svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
@@ -60,7 +58,6 @@ const rustCode = `fn main() {
 		</header>
 
 		<main class="space-y-20">
-			<!-- EXPERIENCES -->
 			<section id="experiences" class="space-y-6 animate-fade-in [animation-delay:150ms] scroll-mt-20">
 				<h2 class="text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500 font-semibold">Expériences</h2>
 				<div class="space-y-4">
@@ -68,19 +65,24 @@ const rustCode = `fn main() {
 						date="Fév. 2025 — Juil. 2025"
 						title="Ingénieur IA (Stage)"
 						company="École Rockefeller"
-						description="Implémentation de modèles prédictifs (Scikit-Learn, PyTorch). Création d'un chatbot LLM basé sur une architecture RAG avec LangChain."
+						tasks={[
+							"Modélisation & Benchmark : Étude comparative et implémentation de modèles de Machine Learning et Deep Learning (Scikit-Learn, PyTorch) pour la prédiction de comportements complexes sous Python.",
+							"Analyse de données : Analyse statistique exploratoire via des méthodes de Data Mining et modélisation de tableaux de bord interactifs pour la présentation des résultats sur Power BI.",
+							"IA Générative : Conception d’un chatbot LLM basé sur une architecture RAG (LangChain), optimisé pour l'extraction et l'exploitation d'une vaste base documentaire technique."
+						]}
 						link="https://github.com/adesbx/rust-game"
 					/>
 					<ExperienceCard 
 						date="Juin 2023 — Août 2023"
 						title="Développeur Web & Data"
 						company="Tecnea"
-						description="Conception et conteneurisation d'une Webapp d'audit de schémas de BDD relationnelles (Python, Angular, Docker)."
+						tasks={[
+							"Réalisation d’une webapp d’audit de schémas de bases de données conteneurisée sous Docker : connexion dynamique à la BDD, inspection des métadonnées (tables, PK/FK, cardinalités), évaluation de la cohérence du modèle, attribution d’un score global de qualité du design. Développement avec Python et Angular."
+						]}
 					/>
 				</div>
 			</section>
 
-			<!-- PROJETS AVEC FENÊTRE DE DÉTAILS -->
 			<section id="projets" class="space-y-6 scroll-mt-20 reveal">
 				<h2 class="text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500 font-semibold">Projets Sélectionnés</h2>
 				<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -114,7 +116,6 @@ const rustCode = `fn main() {
 				</div>
 			</section>
 
-			<!-- PASSIONS -->
 			<section id="passions" class="space-y-6 animate-fade-in [animation-delay:450ms] scroll-mt-20">
 				<h2 class="text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500 font-semibold">Intérêts & Passions</h2>
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -136,7 +137,7 @@ const rustCode = `fn main() {
 		</main>
 
 		<footer class="mt-24 pt-8 border-t border-zinc-200 dark:border-zinc-800 text-center text-[11px] text-zinc-400 dark:text-zinc-500 font-light">
-			<p>© 2026 Arthur Desbiaux. Conçu avec Astro & Tailwind CSS.</p>
+			<p>© 2026 Arthur Desbiaux. Tous droits réservés.</p>
 		</footer>
 	</div>
 </Layout>
