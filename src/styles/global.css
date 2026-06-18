@@ -2,11 +2,14 @@
 
 @variant dark (&:where(.dark, .dark *));
 
+html {
+    font-size: 120%;
+}
+
 body {
     font-family: 'Inter', sans-serif;
 }
 
-/* --- ANIMATION AU SCROLL (NATIVE) --- */
 .reveal {
     opacity: 0;
     transform: translateY(24px);
@@ -16,14 +19,12 @@ body {
                 scale 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* État quand l'élément est visible à l'écran */
 .reveal.is-visible {
     opacity: 1;
     transform: translateY(0);
     scale: 1;
 }
 
-/* --- STYLE DE LA FENÊTRE DIALOG (MODALE) --- */
 dialog::backdrop {
     background-color: rgba(9, 9, 11, 0.5);
     backdrop-filter: blur(4px);

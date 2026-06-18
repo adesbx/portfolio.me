@@ -153,7 +153,7 @@ fn move_player(
 					
 					<ProjectCard 
 						title="homicide Analysis"
-						description="Ce projet explore les dynamiques globales des homicides à travers le monde en combinant l'analyse statistique classique et la théorie des graphes."
+						description="Ce projet vise à découvrir des tendances dans les homicides à travers le monde."
 						tech="Python / Pandas / Numpy"
 						link="https://github.com/adesbx/homicideAnalysis"
 					>
@@ -206,7 +206,96 @@ fn move_player(
 								/> 
 							</div>
 						</ul>
-					</ProjectCard>				
+					</ProjectCard>	
+
+					<ProjectCard 
+						title="mlops credit risk pipeline"
+						description="Petit projet visant à découvrir les pratiques du MLOps."
+						tech="Python / Docker / DVC"
+						link="https://github.com/adesbx/mlops-credit-risk-pipeline"
+					>
+						<p>
+							Projet complet de Machine Learning orienté production, mettant en place une pipeline MLOps reproductible pour la prédiction du risque de crédit.
+						</p>
+
+						<p>
+							L'intégralité de l'infrastructure a été conçue pour automatiser les barrières de contrôle de code et de données. Grâce à l'utilisation conjointe de DVC et de Docker, le déploiement d'un nouveau modèle s'effectue en totale confiance, encadré par des barrières de qualité logicielle.
+						</p>
+
+						<p>
+							L'objectif de ce projet est de construire un modèle de prédiction du risque de crédit à partir de données clients et historiques de paiement, en respectant des standards proches de la production.
+						</p>
+						</n>
+						</n>
+						<p>
+							La pipeline inclut :
+						</p>
+						<ul class="space-y-4 pt-2">
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<span>
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Prétraitement des données</strong> 
+								</span>
+							</li>
+
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<span>
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Séparation train / test</strong> 
+								</span>
+							</li>
+							
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<span>
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Entraînement du modèle</strong> 
+								</span>
+							</li>
+
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<span>
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Évaluation des performances</strong> 
+								</span>
+							</li>
+
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<span>
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Validation automatique des métriques</strong> 
+								</span>
+							</li>
+
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<span>
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Exposition du modèle via API/strong> 
+								</span>
+							</li>
+
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<span>
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Containerisation Docker</strong> 
+								</span>
+							</li>
+							
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<span>
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Validation automatique via CI</strong> 
+								</span>
+							</li>
+						</ul>
+
+						<p>
+							Le projet utilise DVC versionner les données, reproduire les expériences et garantir la traçabilité.
+						</p>
+						</n>
+						<p>
+							Le modèle est exposé via une API développée avec FastAPI.
+						</p>
+					</ProjectCard>							
 				</div>
 			</section>
 
