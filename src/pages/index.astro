@@ -269,7 +269,7 @@ fn move_player(
 							<li class="flex items-start gap-2">
 								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
 								<span>
-									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Exposition du modèle via API/strong> 
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Exposition du modèle via API</strong> 
 								</span>
 							</li>
 
@@ -295,6 +295,83 @@ fn move_player(
 						<p>
 							Le modèle est exposé via une API développée avec FastAPI.
 						</p>
+					</ProjectCard>	
+
+					<ProjectCard 
+						title="EmotiSwap"
+						description="Transformation faciale en temps réel capable de détecter les émotions et d’adapter la caméra à l’aide d'images."
+						tech="Python / PyTorch"
+						link="https://github.com/adesbx/EmotiSwap"
+					>
+						<p>
+							Une application interactive de <strong>Computer Vision & Deep Learning</strong> capable d'analyser les expressions faciales en temps réel pour y substituer des éléments graphiques dynamiques. Ce projet met en œuvre des techniques avancées de détection, d'alignement de formes géométriques et de classification d'images par réseaux de neurones.
+						</p>
+
+						<!--petite démo-->
+
+						<p>
+							Conçu pour optimiser le compromis entre précision du modèle et latence d'affichage, le projet intègre une pipeline de traitement d'images asynchrone permettant un rendu fluide (30+ FPS) indispensable à une expérience utilisateur de type filtre vidéo ou réalité augmentée.
+						</p>
+
+						<ul class="space-y-4 pt-2">
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<div class="flex-1">
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Reconnaissance d'Expressions (CNN) :</strong> 
+									Entraînement d'un réseau de neurones convolutif optimisé pour la reconnaissance d'émotions faciales (FER), capable d'inférer instantanément l'état émotionnel à partir d'une région d'intérêt (ROI) isolée.
+
+									<p class="mt-2 text-zinc-400 dark:text-zinc-500">Ce dataset contient :</p>
+									
+									<ul class="space-y-2 pt-1 pl-2">
+										<li class="flex items-start gap-2 text-zinc-500 dark:text-zinc-400">
+											<span class="text-zinc-300 dark:text-zinc-700 select-none">—</span> <!-- LE TIRET CONCERNÉ -->
+											<span>35 887 images</span>
+										</li>
+
+										<li class="flex items-start gap-2 text-zinc-500 dark:text-zinc-400">
+											<span class="text-zinc-300 dark:text-zinc-700 select-none">—</span> <!-- LE TIRET CONCERNÉ -->
+											<span>réparties en 7 émotions</span>
+										</li>
+									</ul>
+								</div>
+							</li>
+
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<span>
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Tracking Géométrique Spatial :</strong> 
+									Utilisation des repères faciaux (facial landmarks) pour calculer dynamiquement l'orientation, l'échelle et la distorsion de la zone du visage, garantissant un ancrage parfait des assets superposés.
+								</span>
+							</li>
+							
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<span>
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Optimisation du Flux Vidéo (OpenCV) :</strong> 
+									Mise en place d'une gestion efficace des buffers d'images avec OpenCV pour garantir une latence d'inférence minimale et un traitement fluide image par image.
+								</span>
+							</li>
+						</ul>
+
+						<div class="mt-4 space-y-2">
+							<p class="font-medium text-zinc-800 dark:text-zinc-200">Résultats :</p>
+							<p class="text-zinc-500 dark:text-zinc-400">Deux modèles ont été entraînés :</p>
+							
+							<ul class="space-y-2 pt-1 pl-2">
+								<li class="flex items-start gap-2 text-zinc-500 dark:text-zinc-400">
+									<span class="text-zinc-300 dark:text-zinc-700 select-none">•</span>
+									<span>
+										<strong class="font-medium text-zinc-800 dark:text-zinc-200">CNN :</strong> 54% d'accuracy
+									</span>
+								</li>
+								<li class="flex items-start gap-2 text-zinc-500 dark:text-zinc-400">
+									<span class="text-zinc-300 dark:text-zinc-700 select-none">•</span>
+									<span>
+										<strong class="font-medium text-zinc-800 dark:text-zinc-200">ResNet :</strong> 63% d'accuracy
+									</span>
+								</li>
+							</ul>
+						</div>
 					</ProjectCard>							
 				</div>
 			</section>
