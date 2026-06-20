@@ -79,7 +79,7 @@ fn move_player(
 							"Analyse de données : Analyse statistique exploratoire via des méthodes de Data Mining et modélisation de tableaux de bord interactifs pour la présentation des résultats sur Power BI.",
 							"IA Générative : Conception d’un chatbot LLM basé sur une architecture RAG (LangChain), optimisé pour l'extraction et l'exploitation d'une vaste base documentaire technique."
 						]}
-						link="https://github.com/adesbx/rust-game"
+						link="https://github.com/adesbx/rapport"
 					/>
 					<ExperienceCard 
 						date="Juin 2023 — Août 2023"
@@ -206,6 +206,31 @@ fn move_player(
 								/> 
 							</div>
 						</ul>
+
+						<div class="mt-4 space-y-3">
+							<p class="text-zinc-600 dark:text-zinc-300 font-light">
+								L'objectif central de ce projet était de formuler et d'explorer plusieurs problématiques clés :
+							</p>
+							
+							<ul class="space-y-2 pt-1 pl-2">
+								<li class="flex items-start gap-2 text-zinc-500 dark:text-zinc-400">
+									<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+									<span>Quels sont les pays les plus meurtriers dans le monde ?</span>
+								</li>
+								<li class="flex items-start gap-2 text-zinc-500 dark:text-zinc-400">
+									<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+									<span>Retrouve-t-on des régions géographiques particulièrement meurtrières ?</span>
+								</li>
+								<li class="flex items-start gap-2 text-zinc-500 dark:text-zinc-400">
+									<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+									<span>Ces régions correspondent-elles aux découpages continentaux ?</span>
+								</li>
+								<li class="flex items-start gap-2 text-zinc-500 dark:text-zinc-400">
+									<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+									<span>Peut-on identifier des groupes de pays présentant des tendances meurtrières similaires ?</span>
+								</li>
+							</ul>
+						</div>
 					</ProjectCard>	
 
 					<ProjectCard 
@@ -372,6 +397,64 @@ fn move_player(
 								</li>
 							</ul>
 						</div>
+					</ProjectCard>		
+
+
+					<ProjectCard 
+						title="LLMovie"
+						description="Système d'exploration et de recommandation cinématographique intelligent en remplaçant utilisant une interface conversationnelle pilotée par un LLM et adossée à une base de données vectorielle"
+						tech="Python / PyTorch / LangChain"
+						link="https://github.com/adesbx/EmotiSwap"
+					>
+						<p>
+							Un système expert d'exploration cinématographique basé sur l'<strong>Intelligence Artificielle Générative</strong>, exploitant une architecture moderne de type <strong>RAG (Retrieval-Augmented Generation)</strong> pour offrir une expérience de recherche sémantique fluide et naturelle.
+						</p>
+
+						<div class="overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 my-4 shadow-xs">
+							<img src="/images/llmovie_interface_01.png" alt="Interface utilisateur de recherche de films conversationnelle" class="w-full h-auto object-cover" />
+						</div>
+
+						<p>
+							En combinant la puissance de compréhension des grands modèles de langage (LLMs) et la précision mathématique d'une base de données vectorielle, l'application est capable de décoder l'humeur et le contexte d'une requête utilisateur complexe afin de proposer des recommandations ciblées sans aucune hallucination.
+						</p>
+
+						<div class="overflow-hidden rounded-xl border border-zinc-200 border-zinc-800 bg-zinc-100 dark:bg-zinc-900/60 my-3 shadow-xs p-4 flex justify-center"> 
+							<img 
+								src="/images/llmovie_rag_architecture_02.png" 
+								alt="Schéma d'architecture RAG : Embeddings, Vector DB et LLM" 
+								class="max-w-full max-h-64 object-contain" 
+							/> 
+						</div>
+
+						<ul class="space-y-4 pt-2">
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<span>
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Recherche Sémantique (Vector DB) :</strong> 
+									Modélisation d'un dataset de films sous forme de vecteurs d'embeddings denses. Utilisation de calculs de similarité cosinus pour extraire instantanément les films sémantiquement les plus proches de l'intention de l'utilisateur.
+								</span>
+							</li>
+
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<span>
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Architecture RAG & Orchestration :</strong> 
+									Mise en place d'une pipeline d'orchestration via LangChain permettant de lier la base de données au modèle de langage en injectant dynamiquement le contexte pertinent dans le prompt.
+								</span>
+							</li>
+							
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<span>
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Prompt Engineering & Grounding :</strong> 
+									Conception de fenêtres de contextes et de règles de filtrage strictes pour aligner les réponses du LLM, évitant les dérives comportementales et garantissant une argumentation rigoureuse basée uniquement sur les données réelles.
+								</span>
+							</li>
+						</ul>
+
+						<p>
+							L'utilisateur peut fournir ses informations letterbox pour avoir de meilleurs recommandation.
+						</p>
 					</ProjectCard>							
 				</div>
 			</section>
