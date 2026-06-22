@@ -38,7 +38,7 @@ fn move_player(
 				Passionné par l'IA générative et le Machine/Deep Learning, j'interviens de manière proactive sur l'ensemble du cycle de vie des projets, de la phase de cadrage jusqu'à la mise en production. J'ai notamment pu éprouver cette approche lors d'un projet clé mené pour l'École Rockefeller.			
 			</p>
 			<div class="flex flex-wrap items-center gap-4 pt-4">
-				<a href="{`${import.meta.env.BASE_URL}/CV A DESB v2.0-1.pdf`}" download="CV_Arthur_Desbiaux.pdf" class="group flex items-center gap-2 px-4 py-2 bg-zinc-900 dark:bg-zinc-100 text-zinc-50 dark:text-zinc-900 text-xs font-medium rounded-lg hover:-translate-y-0.5 hover:shadow-lg hover:shadow-zinc-900/20 dark:hover:shadow-zinc-100/20 transition-all duration-300">
+				<a href={`${import.meta.env.BASE_URL}/CV A DESB v2.0-1.pdf`} download="CV_Arthur_Desbiaux.pdf" class="group flex items-center gap-2 px-4 py-2 bg-zinc-900 dark:bg-zinc-100 text-zinc-50 dark:text-zinc-900 text-xs font-medium rounded-lg hover:-translate-y-0.5 hover:shadow-lg hover:shadow-zinc-900/20 dark:hover:shadow-zinc-100/20 transition-all duration-300">
 					<svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
 					Télécharger mon CV
 				</a>
@@ -158,7 +158,7 @@ fn move_player(
 					</ProjectCard>
 					
 					<ProjectCard 
-						title="homicide Analysis"
+						title="Homicide Analysis"
 						description="Ce projet vise à découvrir des tendances dans les homicides à travers le monde."
 						tech="Python / Pandas / Numpy"
 						link="https://github.com/adesbx/homicideAnalysis"
@@ -240,7 +240,7 @@ fn move_player(
 					</ProjectCard>	
 
 					<ProjectCard 
-						title="mlops credit risk pipeline"
+						title="Mlops Credit Risk Pipeline"
 						description="Petit projet visant à découvrir les pratiques du MLOps."
 						tech="Python / Docker / DVC"
 						link="https://github.com/adesbx/mlops-credit-risk-pipeline"
@@ -338,7 +338,14 @@ fn move_player(
 							Une application interactive de <strong>Computer Vision & Deep Learning</strong> capable d'analyser les expressions faciales en temps réel pour y substituer des éléments graphiques dynamiques. Ce projet met en œuvre des techniques avancées de détection, d'alignement de formes géométriques et de classification d'images par réseaux de neurones.
 						</p>
 
-						<!--petite démo-->
+						<div class="w-full aspect-video mb-3 overflow-hidden rounded-lg border border-zinc-100 dark:border-zinc-900/30 bg-zinc-50 dark:bg-zinc-900">
+							<img 
+								src={`${import.meta.env.BASE_URL}/images/emotiswap_01.gif`}
+								alt="Démo de EmotiSwap" 
+								class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300" 
+								loading="lazy"
+							/>
+						</div>
 
 						<p>
 							Conçu pour optimiser le compromis entre précision du modèle et latence d'affichage, le projet intègre une pipeline de traitement d'images asynchrone permettant un rendu fluide (30+ FPS) indispensable à une expérience utilisateur de type filtre vidéo ou réalité augmentée.
@@ -526,7 +533,7 @@ fn move_player(
 					
 					<PassionCard 
 						title="Montage de maquettes"
-						description="Assemblage de maquette type gundam."
+						description="Assemblage de maquette type Gundam."
 					>
 						<svg slot="icon" class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 0-7.94-7.94l-6.91 6.91a2.12 2.12 0 0 0-.13 2.87l2.12 2.12L3 19v2h2l6.24-6.24 2.12 2.12a2.12 2.12 0 0 0 2.87-.13l6.91-6.91a6 6 0 0 0-7.94-7.94l-3.76 3.76Z"/></svg>					
 					</PassionCard>
