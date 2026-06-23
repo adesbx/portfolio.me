@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar.astro';
 import ExperienceCard from '../components/ExperienceCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import PassionCard from '../components/PassionCard.astro';
+import ScrollTopButton from '../components/ScrollTopButton.astro';
 
 const rustCode = `
 fn move_player(
@@ -89,7 +90,7 @@ fn move_player(
 					/>
 					<ExperienceCard 
 						date="Juin 2023 — Août 2023"
-						title="Développeur Web & Data"
+						title="Développeur Web & Data (Stage)"
 						company="Tecnea"
 						tasks={[
 							"Réalisation d’une webapp d’audit de schémas de bases de données conteneurisée sous Docker : connexion dynamique à la BDD, inspection des métadonnées (tables, PK/FK, cardinalités), évaluation de la cohérence du modèle, attribution d’un score global de qualité du design. Développement avec Python et Angular."
@@ -539,6 +540,7 @@ fn move_player(
 					</PassionCard>
 				</div>
 			</section>
+			<ScrollTopButton />
 		</main>
 
 		<footer class="mt-24 pt-8 border-t border-zinc-200 dark:border-zinc-800 text-center text-[11px] text-zinc-400 dark:text-zinc-500 font-light">
