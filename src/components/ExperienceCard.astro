@@ -35,10 +35,10 @@ const { date, title, company, tasks = [], link, description } = Astro.props;
                                 {hasColon ? (
                                     <>
                                         <strong class="font-bold text-zinc-950 dark:text-white">{prefix} :</strong> 
-                                        {" "}{suffix}
+                                        <span set:html={" " + suffix} </>
                                     </>
                                 ) : (
-                                    task
+                                    <span set:html={task} />
                                 )}
                             </span>
                         </li>
