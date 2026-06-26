@@ -519,15 +519,90 @@ fn move_player(
 							L'utilisateur peut fournir ses informations letterbox pour avoir de meilleurs recommandation.
 						</p>
 					</ProjectCard>
-					
+
 					<ProjectCard 
-						title="Image Segmentation"
-						description="Exploration et implémentation de méthode de 'region growing' pour en extraire des objets ou des structures d'intérêt."
-						tech="C++ / OpenCV"
-						link="https://github.com/Benjamin-Eldo/m1-image-segmentation"
-					>
-					
-					</ProjectCard>							
+					title="Region Growing"
+					description="Segmentation d'image et de vidéo par croissance de région, avec fusion adaptative des zones et traitement parallèle multi-thread."
+					tech="C++ / OpenCV"
+					link="https://github.com/Benjamin-Eldo/m1-image-segmentation"
+					>	
+						<p>
+							Une application de <strong>Traitement d'Image</strong> mettant en œuvre l'algorithme de <em>region growing</em> pour segmenter une image en zones homogènes en couleur, à partir de graines placées aléatoirement puis étendues itérativement à leurs pixels voisins. Le projet implémente l'ensemble du pipeline en C++ natif au-dessus d'OpenCV, sans dépendance à une bibliothèque de segmentation existante.
+						</p>
+
+						<div class="w-full aspect-video mb-3 overflow-hidden rounded-lg border border-zinc-100 dark:border-zinc-900/30 bg-zinc-50 dark:bg-zinc-900">
+							<img 
+								src={`${import.meta.env.BASE_URL}/images/regiongrowing_01.gif`}
+								alt="Démo de RegionGrowing" 
+								class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300" 
+								loading="lazy"
+							/>
+						</div>
+
+						<p>
+							Conçu pour traiter aussi bien des images fixes que des flux vidéo complets, le projet repose sur une parallélisation à plusieurs niveaux (croissance simultanée des régions, fusion concurrente des voisinages, pipeline de frames borné) afin de limiter le temps de traitement malgré le coût algorithmique de la segmentation pixel par pixel.
+						</p>
+
+						<ul class="space-y-4 pt-2">
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<div class="flex-1">
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Génération de Graines (RegionFactory) :</strong> 
+									Découpage de l'image en une grille de zones candidates et sélection aléatoire d'un sous-ensemble de zones pour y placer les graines initiales, garantissant une répartition spatiale homogène des régions de départ.
+
+									<p class="mt-2 text-zinc-400 dark:text-zinc-500">Le pipeline distingue trois phases successives :</p>
+									
+									<ul class="space-y-2 pt-1 pl-2">
+										<li class="flex items-start gap-2 text-zinc-500 dark:text-zinc-400">
+											<span class="text-zinc-300 dark:text-zinc-700 select-none">—</span>
+											<span>Croissance parallèle des régions (GrowthChamber)</span>
+										</li>
+
+										<li class="flex items-start gap-2 text-zinc-500 dark:text-zinc-400">
+											<span class="text-zinc-300 dark:text-zinc-700 select-none">—</span>
+											<span>Fusion des régions voisines par similarité de couleur (RegionMerger)</span>
+										</li>
+									</ul>
+								</div>
+							</li>
+
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<span>
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Croissance Multi-thread (GrowthChamber) :</strong> 
+									Propagation simultanée de chaque région à ses 8-voisins via des tâches asynchrones, avec validation de couleur par seuil de tolérance et application synchronisée des pixels colorisés à chaque itération.
+								</span>
+							</li>
+							
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<span>
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Pipeline Vidéo Asynchrone (VideoRegionGrowing) :</strong> 
+									Traitement frame par frame d'un flux vidéo complet, avec un pool de tâches borné par condition variable garantissant un nombre maximal de frames en cours de calcul tout en préservant l'ordre d'écriture dans la vidéo de sortie.
+								</span>
+							</li>
+						</ul>
+
+						<div class="mt-4 space-y-2">
+							<p class="font-medium text-zinc-800 dark:text-zinc-200">Architecture :</p>
+							<p class="text-zinc-500 dark:text-zinc-400">Deux modes d'exécution sont supportés :</p>
+							
+							<ul class="space-y-2 pt-1 pl-2">
+								<li class="flex items-start gap-2 text-zinc-500 dark:text-zinc-400">
+									<span class="text-zinc-300 dark:text-zinc-700 select-none">•</span>
+									<span>
+										<strong class="font-medium text-zinc-800 dark:text-zinc-200">Image fixe :</strong> segmentation complète en un seul passage (graines → croissance → fusion → rendu)
+									</span>
+								</li>
+								<li class="flex items-start gap-2 text-zinc-500 dark:text-zinc-400">
+									<span class="text-zinc-300 dark:text-zinc-700 select-none">•</span>
+									<span>
+										<strong class="font-medium text-zinc-800 dark:text-zinc-200">Vidéo :</strong> segmentation appliquée frame par frame, en parallèle borné, puis réassemblage ordonné
+									</span>
+								</li>
+							</ul>
+						</div>
+					</ProjectCard>					
 				</div>
 			</section>
 
