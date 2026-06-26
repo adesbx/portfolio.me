@@ -687,12 +687,9 @@ fn move_player(
     const lightbox = document.getElementById('image-lightbox') as HTMLDialogElement;
     const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
 
-    // On cible toutes les images directement
     document.querySelectorAll('img').forEach((img) => {
-        // Sécurité : on n'active pas le zoom sur l'image interne de la lightbox
         if (img.id === 'lightbox-img') return;
 
-        // On ajoute le curseur de zoom à toutes les images de ton portfolio
         img.classList.add('cursor-zoom-in');
         
         img.addEventListener('click', () => {
@@ -704,7 +701,6 @@ fn move_player(
         });
     });
 
-    // Fermer la modal en cliquant n'importe où
     lightbox?.addEventListener('click', () => {
         lightbox.close();
     });
