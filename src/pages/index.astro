@@ -198,7 +198,7 @@ fn move_player(
 								loading="lazy"
 							/>
 						</div>
-						<p class="text-zinc-400 dark:text-zinc-500 text-sm mt-[-8px]">Résultat de la régionalisation : un Agglomerative Clustering contraint par la proximité géographique des pays (7 clusters), qui fait ressortir des zones cohérentes comme l'Europe, l'Amérique du Nord ou les Caraïbes.</p>
+						<p class="text-zinc-400 dark:text-zinc-500 text-sm mt-[-8px]">Résultat de la régionalisation : un Agglomerative Clustering contraint par la proximité géographique des pays (7 clusters), qui fait ressortir des zones cohérentes comme l'Europe, Moyen-Orient ou les Caraïbes.</p>
 
 						<p>
 							Le dataset brut (fichier Excel à en-têtes multi-niveaux) a d'abord été nettoyé et restructuré en Python, avant d'être attaqué sous quatre angles complémentaires : clustering classique, régionalisation géographique contrainte, clustering de séries temporelles, et théorie des graphes.
@@ -209,7 +209,7 @@ fn move_player(
 								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
 								<div class="flex-1">
 									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Clustering & Régionalisation (Scikit-learn) :</strong> 
-									Premier passage en K-Means sur l'ensemble des variables encodées, rapidement écarté car trop bruité. Pivot vers une <strong>Agglomerative Clustering</strong> contrainte par une matrice de connectivité spatiale (k plus proches voisins géographiques), permettant de faire émerger des régions cohérentes (Europe, Amérique du Nord, zone Caraïbes) à partir des seuls taux d'homicides.
+									Premier passage en K-Means sur l'ensemble des variables encodées, rapidement écarté car trop bruité. Pivot vers une <strong>Agglomerative Clustering</strong> contrainte par une matrice de connectivité spatiale (k plus proches voisins géographiques), permettant de faire émerger des régions cohérentes (Europe, Moyen-Orient, zone Caraïbes) à partir des seuls taux d'homicides.
 								</div>
 							</li>
 
@@ -678,4 +678,34 @@ fn move_player(
 			<p>© 2026 Arthur Desbiaux. Tous droits réservés.</p>
 		</footer>
 	</div>
+	<dialog id="image-lightbox" class="backdrop:bg-black/80 backdrop:backdrop-blur-sm bg-transparent p-0 max-w-5xl max-h-[90vh] overflow-hidden rounded-2xl outline-hidden cursor-zoom-out select-none fixed inset-0 m-auto w-[calc(100%-2rem)] shadow-2xl">
+		<img id="lightbox-img" src="" alt="" class="w-full h-auto max-h-[90vh] object-contain" />
+	</dialog>
 </Layout>
+
+<script>
+    const lightbox = document.getElementById('image-lightbox') as HTMLDialogElement;
+    const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+
+    // On cible toutes les images directement
+    document.querySelectorAll('img').forEach((img) => {
+        // Sécurité : on n'active pas le zoom sur l'image interne de la lightbox
+        if (img.id === 'lightbox-img') return;
+
+        // On ajoute le curseur de zoom à toutes les images de ton portfolio
+        img.classList.add('cursor-zoom-in');
+        
+        img.addEventListener('click', () => {
+            if (lightbox && lightboxImg) {
+                lightboxImg.src = img.src;
+                lightboxImg.alt = img.alt;
+                lightbox.showModal();
+            }
+        });
+    });
+
+    // Fermer la modal en cliquant n'importe où
+    lightbox?.addEventListener('click', () => {
+        lightbox.close();
+    });
+</script>
