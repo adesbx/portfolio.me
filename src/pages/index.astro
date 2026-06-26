@@ -182,85 +182,99 @@ fn move_player(
 					
 					<ProjectCard 
 						title="Homicide Analysis"
-						description="Ce projet vise à découvrir des tendances dans les homicides à travers le monde."
-						tech="Python / Pandas / Numpy"
+						description="Exploration data mining d'un dataset mondial d'homicides : clustering spatial, temporel et analyse de graphe pour révéler (ou non) des tendances criminelles entre pays."
+						tech="Python / Pandas / Scikit-learn"
 						link="https://github.com/adesbx/homicideAnalysis"
 					>
 						<p>
-							Une étude approfondie de <strong>Data Mining</strong> axée sur la criminalité mondiale, entièrement développée en Python dans le cadre de mon Master 2 en Intelligence Artificielle. Ce projet combine l'analyse statistique classique et la théorie des réseaux pour modéliser et comprendre les structures globales des homicides et leurs disparités de genre.
+							Un projet de <strong>Data Mining</strong> exploratoire mené sur les données mondiales d'homicides intentionnels (UNODC, 2000-2021). L'objectif n'était pas une seule analyse mais une comparaison méthodique de plusieurs approches de clustering et de modélisation pour répondre à une question simple : <em>existe-t-il des tendances de criminalité partagées entre pays voisins ou dans le temps ?</em>
 						</p>
 
-						<div class="overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 my-4 shadow-xs">
-							<img src={`${import.meta.env.BASE_URL}/images/homicide_analytics_01.png`} alt="Exemple de donnée" class="w-full h-auto object-cover" />
+						<div class="w-full aspect-video mb-3 overflow-hidden rounded-lg border border-zinc-100 dark:border-zinc-900/30 bg-zinc-50 dark:bg-zinc-900">
+							<img 
+								src={`${import.meta.env.BASE_URL}/images/homicide_analytics_01.png`}
+								alt="Carte de régionalisation géographique des pays par taux d'homicides" 
+								class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300" 
+								loading="lazy"
+							/>
 						</div>
+						<p class="text-zinc-400 dark:text-zinc-500 text-sm mt-[-8px]">Résultat de la régionalisation : un Agglomerative Clustering contraint par la proximité géographique des pays (7 clusters), qui fait ressortir des zones cohérentes comme l'Europe, l'Amérique du Nord ou les Caraïbes.</p>
+
+						<p>
+							Le dataset brut (fichier Excel à en-têtes multi-niveaux) a d'abord été nettoyé et restructuré en Python, avant d'être attaqué sous quatre angles complémentaires : clustering classique, régionalisation géographique contrainte, clustering de séries temporelles, et théorie des graphes.
+						</p>
 
 						<ul class="space-y-4 pt-2">
 							<li class="flex items-start gap-2">
 								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<div class="flex-1">
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Clustering & Régionalisation (Scikit-learn) :</strong> 
+									Premier passage en K-Means sur l'ensemble des variables encodées, rapidement écarté car trop bruité. Pivot vers une <strong>Agglomerative Clustering</strong> contrainte par une matrice de connectivité spatiale (k plus proches voisins géographiques), permettant de faire émerger des régions cohérentes (Europe, Amérique du Nord, zone Caraïbes) à partir des seuls taux d'homicides.
+								</div>
+							</li>
+
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
 								<span>
-									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Modélisation en Graphe (NetworkX) :</strong> 
-									Conception d'une matrice de similarité convertissant les données démographiques des pays en nœuds interconnectés. Deux nations sont liées si leurs profils et dynamiques de criminalité partagent une proximité statistique stricte.
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Clustering de séries temporelles (DTW) :</strong> 
+									Utilisation de <strong>TimeSeriesKMeans</strong> avec une distance Dynamic Time Warping pour regrouper les pays selon la forme de l'évolution de leur taux d'homicides plutôt que son niveau absolu, révélant des dynamiques régionales distinctes en Afrique et en Europe.
 								</span>
 							</li>
 
 							<li class="flex items-start gap-2">
 								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
 								<span>
-									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Analyse Algorithmique de Centralité :</strong> 
-									Exploration de la composante connexe via les métriques de degré, de proximité (closeness) et d'intermédialité (betweenness) pour identifier mathématiquement les pays "pivots" agissant comme passerelles entre différents profils de violence.
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Analyse de périodicité (ACF) :</strong> 
+									Calcul de l'autocorrélation par pays pour tester l'existence d'un cycle annuel de criminalité, et comparaison par DTW de pays géographiquement proches (Amérique latine, Europe de l'Ouest) pour vérifier la présence de tendances communes.
 								</span>
 							</li>
 
-							<div class="overflow-hidden rounded-xl border border-zinc-200 border-zinc-800 bg-zinc-100 dark:bg-zinc-900/60 my-3 shadow-xs p-4 flex justify-center"> 
-								<img 
-									src={`${import.meta.env.BASE_URL}/images/homicide_analytics_02.png`}
-									alt="Degree centrality sur le graph" 
-									class="max-w-full max-h-64 object-contain" 
-								/> 
-							</div>
-							
 							<li class="flex items-start gap-2">
 								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
-								<span>
-									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Segmentation de Genre & Conclusions :</strong> 
-									Mise en évidence de clusters criminologiques transfrontaliers et validation statistique d'une forte asymétrie des genres (surreprésentation masculine des victimes corrélée aux zones d'activité de criminalité organisée).
-								</span>
-							</li>
+								<div class="flex-1">
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Théorie des graphes (NetworkX) :</strong> 
+									Construction d'un graphe de corrélation (Pearson) entre pays sur leurs taux d'homicides, puis calcul des centralités (closeness, degree, betweenness) pour identifier les pays "représentatifs" ou les ponts structurels entre profils de criminalité.
 
-							<div class="overflow-hidden rounded-xl border border-zinc-200 border-zinc-800 bg-zinc-100 dark:bg-zinc-900/60 my-3 shadow-xs p-4 flex justify-center"> 
-								<img 
-									src={`${import.meta.env.BASE_URL}/images/homicide_analytics_03.png`}
-									alt="Clustering des données" 
-									class="max-w-full max-h-64 object-contain" 
-								/> 
-							</div>
+									<div class="w-full aspect-video mt-3 mb-1 overflow-hidden rounded-lg border border-zinc-100 dark:border-zinc-900/30 bg-zinc-50 dark:bg-zinc-900">
+										<img 
+											src={`${import.meta.env.BASE_URL}/images/homicide_analytics_02.png`}
+											alt="Graphe de corrélation entre pays selon leur taux d'homicides" 
+											class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300" 
+											loading="lazy"
+										/>
+									</div>
+									<p class="mt-2 text-zinc-400 dark:text-zinc-500 text-sm">Chaque nœud est un pays, chaque arête relie deux pays dont les taux d'homicides sont fortement corrélés (Pearson &gt; 0.7) sur 2000-2021. Le cœur du graphe regroupe la majorité des pays sans distinction de continent.</p>
+								</div>
+							</li>
 						</ul>
 
-						<div class="mt-4 space-y-3">
-							<p class="text-zinc-600 dark:text-zinc-300 font-light">
-								L'objectif central de ce projet était de formuler et d'explorer plusieurs problématiques clés :
-							</p>
+						<div class="mt-4 space-y-2">
+							<p class="font-medium text-zinc-800 dark:text-zinc-200">Résultats :</p>
+							<p class="text-zinc-500 dark:text-zinc-400">Quatre approches comparées sur le même jeu de données :</p>
 							
 							<ul class="space-y-2 pt-1 pl-2">
 								<li class="flex items-start gap-2 text-zinc-500 dark:text-zinc-400">
-									<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
-									<span>Quels sont les pays les plus meurtriers dans le monde ?</span>
+									<span class="text-zinc-300 dark:text-zinc-700 select-none">•</span>
+									<span>
+										<strong class="font-medium text-zinc-800 dark:text-zinc-200">Régionalisation spatiale :</strong> régions cohérentes identifiées (Europe, Moyen-Orient)
+									</span>
 								</li>
 								<li class="flex items-start gap-2 text-zinc-500 dark:text-zinc-400">
-									<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
-									<span>Retrouve-t-on des régions géographiques particulièrement meurtrières ?</span>
+									<span class="text-zinc-300 dark:text-zinc-700 select-none">•</span>
+									<span>
+										<strong class="font-medium text-zinc-800 dark:text-zinc-200">Clustering temporel (DTW) :</strong> 2 continents sur 7 clusters bien isolés (Afrique, Europe)
+									</span>
 								</li>
 								<li class="flex items-start gap-2 text-zinc-500 dark:text-zinc-400">
-									<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
-									<span>Ces régions correspondent-elles aux découpages continentaux ?</span>
-								</li>
-								<li class="flex items-start gap-2 text-zinc-500 dark:text-zinc-400">
-									<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
-									<span>Peut-on identifier des groupes de pays présentant des tendances meurtrières similaires ?</span>
+									<span class="text-zinc-300 dark:text-zinc-700 select-none">•</span>
+									<span>
+										<strong class="font-medium text-zinc-800 dark:text-zinc-200">Graphe de corrélation :</strong> centralités trop faibles pour conclure fermement, mais signaux qualitatifs intéressants
+									</span>
 								</li>
 							</ul>
 						</div>
-					</ProjectCard>	
+					</ProjectCard>
+
 
 					<ProjectCard 
 						title="Mlops Credit Risk Pipeline"
