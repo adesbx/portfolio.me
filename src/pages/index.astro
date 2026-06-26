@@ -530,10 +530,16 @@ fn move_player(
 							Une application de <strong>Traitement d'Image</strong> mettant en œuvre l'algorithme de <em>region growing</em> pour segmenter une image en zones homogènes en couleur, à partir de graines placées aléatoirement puis étendues itérativement à leurs pixels voisins. Le projet implémente l'ensemble du pipeline en C++ natif au-dessus d'OpenCV, sans dépendance à une bibliothèque de segmentation existante.
 						</p>
 
-						<div class="w-full aspect-video mb-3 overflow-hidden rounded-lg border border-zinc-100 dark:border-zinc-900/30 bg-zinc-50 dark:bg-zinc-900">
+						<div class="w-full aspect-video mb-3 overflow-hidden rounded-lg border border-zinc-100 dark:border-zinc-900/30 bg-zinc-50 dark:bg-zinc-900 grid grid-cols-2">
 							<img 
-								src={`${import.meta.env.BASE_URL}/images/regiongrowing_01.gif`}
-								alt="Démo de RegionGrowing" 
+								src={`${import.meta.env.BASE_URL}/images/regiongrowing_01.png`}
+								alt="Exemple de RegionGrowing - Original" 
+								class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300 border-r border-zinc-100 dark:border-zinc-900/30" 
+								loading="lazy"
+							/>
+							<img 
+								src={`${import.meta.env.BASE_URL}/images/regiongrowing_02.png`}
+								alt="Exemple de RegionGrowing - Modifié" 
 								class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300" 
 								loading="lazy"
 							/>
