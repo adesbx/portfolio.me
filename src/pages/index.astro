@@ -276,98 +276,92 @@ fn move_player(
 					</ProjectCard>
 
 
-					<ProjectCard 
-						title="Mlops Credit Risk Pipeline"
-						description="Projet d'initiation visant à découvrir les pratiques du MLOps."
-						tech="Python / Docker / DVC"
+										<ProjectCard 
+						title="Credit Risk MLOps Pipeline"
+						description="Pipeline MLOps reproductible pour la prédiction du risque de crédit, avec versioning des données, quality gate automatisé et API de scoring déployable."
+						tech="Python / Scikit-learn / FastAPI / DVC"
 						link="https://github.com/adesbx/mlops-credit-risk-pipeline"
 					>
 						<p>
-							Projet complet de Machine Learning orienté production, mettant en place une pipeline MLOps reproductible pour la prédiction du risque de crédit.
+							Un projet de <strong>Machine Learning orienté production</strong>, pensé au-delà du simple notebook : versioning des données, pipeline reproductible, contrôle qualité des métriques et exposition du modèle via une API conteneurisée, à la manière d'un système prêt pour un environnement réel.
 						</p>
 
 						<p>
-							L'intégralité de l'infrastructure a été conçue pour automatiser les barrières de contrôle de code et de données. Grâce à l'utilisation conjointe de DVC et de Docker, le déploiement d'un nouveau modèle s'effectue en totale confiance, encadré par des barrières de qualité logicielle.
+							Conçu pour démontrer une chaîne MLOps complète, le projet enchaîne prétraitement, entraînement, évaluation et validation automatique des performances avant tout déploiement, avec une intégration continue qui bloque le merge en cas de régression.
 						</p>
 
-						<p>
-							L'objectif de ce projet est de construire un modèle de prédiction du risque de crédit à partir de données clients et historiques de paiement, en respectant des standards proches de la production.
-						</p>
-						</n>
-						</n>
-						<p>
-							La pipeline inclut :
-						</p>
 						<ul class="space-y-4 pt-2">
 							<li class="flex items-start gap-2">
 								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<div class="flex-1">
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Versioning des données (DVC) :</strong> 
+									Mise en place de DVC pour tracer les jeux de données bruts et prétraités, et pour définir une pipeline déclarative (<code>dvc.yaml</code>) reliant prétraitement, entraînement et évaluation en étapes reproductibles.
+
+									<p class="mt-2 text-zinc-400 dark:text-zinc-500">La pipeline agrège deux sources :</p>
+									
+									<ul class="space-y-2 pt-1 pl-2">
+										<li class="flex items-start gap-2 text-zinc-500 dark:text-zinc-400">
+											<span class="text-zinc-300 dark:text-zinc-700 select-none">—</span>
+											<span>données clients (profil, features numériques)</span>
+										</li>
+
+										<li class="flex items-start gap-2 text-zinc-500 dark:text-zinc-400">
+											<span class="text-zinc-300 dark:text-zinc-700 select-none">—</span>
+											<span>historique de paiement (retards, soldes, plafonds)</span>
+										</li>
+									</ul>
+								</div>
+							</li>
+
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
 								<span>
-									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Prétraitement des données</strong> 
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Prétraitement & Feature Engineering :</strong> 
+									Nettoyage des valeurs manquantes, décomposition des dates en variables exploitables, puis agrégation de l'historique de paiement par client (retards maximums, somme des impayés, soldes moyens) avant fusion avec les données clients.
 								</span>
 							</li>
 
 							<li class="flex items-start gap-2">
 								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
 								<span>
-									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Séparation train / test</strong> 
-								</span>
-							</li>
-							
-							<li class="flex items-start gap-2">
-								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
-								<span>
-									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Entraînement du modèle</strong> 
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Entraînement & Quality Gate :</strong> 
+									Pipeline scikit-learn (<code>StandardScaler</code> + régression logistique) entraînée avec split stratifié train/test, puis évaluation automatique (accuracy, recall, precision, F1) comparée à la version précédente via <code>dvc metrics diff</code> — le pipeline échoue si les performances régressent.
 								</span>
 							</li>
 
 							<li class="flex items-start gap-2">
 								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
 								<span>
-									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Évaluation des performances</strong> 
-								</span>
-							</li>
-
-							<li class="flex items-start gap-2">
-								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
-								<span>
-									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Validation automatique des métriques</strong> 
-								</span>
-							</li>
-
-							<li class="flex items-start gap-2">
-								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
-								<span>
-									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Exposition du modèle via API</strong> 
-								</span>
-							</li>
-
-							<li class="flex items-start gap-2">
-								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
-								<span>
-									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Containerisation Docker</strong> 
-								</span>
-							</li>
-							
-							<li class="flex items-start gap-2">
-								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
-								<span>
-									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Validation automatique via CI</strong> 
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">API & Déploiement (FastAPI + Docker) :</strong> 
+									Modèle exposé via un endpoint <code>POST /predict</code> validé par schéma Pydantic, conteneurisé avec Docker, et intégré à deux workflows GitHub Actions (validation sur Pull Request, tests & lint sur <code>main</code>).
 								</span>
 							</li>
 						</ul>
 
-						<p>
-							Le projet utilise DVC versionner les données, reproduire les expériences et garantir la traçabilité.
-						</p>
-						</n>
-						<p>
-							Le modèle est exposé via une API développée avec FastAPI.
-						</p>
-					</ProjectCard>	
+						<div class="mt-4 space-y-2">
+							<p class="font-medium text-zinc-800 dark:text-zinc-200">Concepts MLOps mis en œuvre :</p>
+							
+							<ul class="space-y-2 pt-1 pl-2">
+								<li class="flex items-start gap-2 text-zinc-500 dark:text-zinc-400">
+									<span class="text-zinc-300 dark:text-zinc-700 select-none">•</span>
+									<span>
+										<strong class="font-medium text-zinc-800 dark:text-zinc-200">Reproductibilité :</strong> pipeline DVC versionnée de bout en bout
+									</span>
+								</li>
+								<li class="flex items-start gap-2 text-zinc-500 dark:text-zinc-400">
+									<span class="text-zinc-300 dark:text-zinc-700 select-none">•</span>
+									<span>
+										<strong class="font-medium text-zinc-800 dark:text-zinc-200">CI/CD :</strong> quality gate automatisé bloquant le merge en cas de régression
+									</span>
+								</li>
+							</ul>
+						</div>
+					</ProjectCard>
+		
 
 					<ProjectCard 
 						title="EmotiSwap"
-						description="Transformation faciale en temps réel capable de détecter les émotions et d’adapter la caméra à l’aide d'images."
+						description="Transformation faciale en temps réel capable de détecter les émotions et d’adapter la caméra à l’aide d'images associé à l'émotion."
 						tech="Python / PyTorch"
 						link="https://github.com/adesbx/EmotiSwap"
 					>
@@ -622,7 +616,7 @@ fn move_player(
 								</li>
 							</ul>
 						</div>
-					</ProjectCard>					
+					</ProjectCard>		
 				</div>
 			</section>
 
