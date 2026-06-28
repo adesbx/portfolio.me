@@ -616,7 +616,107 @@ fn move_player(
 								</li>
 							</ul>
 						</div>
-					</ProjectCard>		
+					</ProjectCard>	
+
+					<ProjectCard 
+						title="WebPirateCurse"
+						description="Jeu de capture territoriale en temps réel basé sur la géolocalisation GPS : pirates contre villageois s'affrontent à portée réelle sur une carte satellite."
+						tech="Vue.js / Spring Boot / Express / Leaflet"
+						link="github.com/adesbx/WebPirateCurse"
+					>
+						<p>
+							Une application <strong>web géolocalisée multijoueur</strong> où deux camps, les <em>pirates</em> et les <em>villageois</em>, s'affrontent en temps réel autour du campus de l'Université Lyon 1. Le projet met en œuvre une architecture distribuée en microservices, une logique de jeu basée sur la proximité GPS réelle des joueurs, et une expérience type PWA avec notifications natives.
+						</p>
+
+						<!--Voir pour démo plus tard
+						<div class="w-full aspect-video mb-3 overflow-hidden rounded-lg border border-zinc-100 dark:border-zinc-900/30 bg-zinc-50 dark:bg-zinc-900">
+							<img 
+								src={`${import.meta.env.BASE_URL}/images/webpiratecurse_01.png`}
+								alt="Démo de WebPirateCurse" 
+								class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300" 
+								loading="lazy"
+							/>
+						</div>
+						-->
+
+						<p>
+							Dans le village de <em>Zeelandia Rainbow Rock</em>, les villageois doivent retrouver des potions magiques avant que les pirates ne s'en emparent. Chaque potion accorde une invulnérabilité temporaire (TTL) permettant d'éliminer un pirate ou de convertir un villageois adverse. Le terrain de jeu est délimité dynamiquement par une zone géographique (ZRR) affichée en surimpression sur une carte satellite Mapbox.
+						</p>
+
+						<ul class="space-y-4 pt-2">
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<div class="flex-1">
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Géolocalisation & Carte temps réel (Leaflet) :</strong> 
+									Suivi GPS natif des joueurs avec calcul de cap (relèvement et direction cardinale), affichage de marqueurs dynamiques par rôle et par état (vivant, sous potion, mort), et calcul de distance réelle entre joueurs via la formule de Haversine.
+
+									<p class="mt-2 text-zinc-400 dark:text-zinc-500">Mécaniques de capture, déclenchées uniquement à proximité réelle (≤ 500m) :</p>
+									
+									<ul class="space-y-2 pt-1 pl-2">
+										<li class="flex items-start gap-2 text-zinc-500 dark:text-zinc-400">
+											<span class="text-zinc-300 dark:text-zinc-700 select-none">—</span>
+											<span>Un villageois sous potion élimine un pirate</span>
+										</li>
+
+										<li class="flex items-start gap-2 text-zinc-500 dark:text-zinc-400">
+											<span class="text-zinc-300 dark:text-zinc-700 select-none">—</span>
+											<span>Un pirate sous potion convertit un villageois</span>
+										</li>
+									</ul>
+								</div>
+							</li>
+
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<span>
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Authentification & Gestion des rôles (Spring Boot) :</strong> 
+									Microservice utilisateurs dédié exposant une API REST documentée en OpenAPI, avec authentification par token, CRUD complet et trois rôles : Pirate, Villageois et Administrateur.
+								</span>
+							</li>
+							
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<span>
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Expérience PWA immersive :</strong> 
+									Notifications push natives lors d'un changement de camp ou d'une élimination, retours haptiques (vibration) sur les actions de jeu, et adaptation automatique du thème clair/sombre via le capteur de luminosité ambiante du terminal.
+								</span>
+							</li>
+
+							<li class="flex items-start gap-2">
+								<span class="text-zinc-300 dark:text-zinc-700 select-none pt-0.5">•</span>
+								<span>
+									<strong class="font-medium text-zinc-800 dark:text-zinc-200">Architecture en microservices :</strong> 
+									Séparation claire entre le client (Vue 3 + Pinia + Vite), l'API de jeu (Node.js / Express), le service utilisateurs (Spring Boot) et l'interface d'administration, déployés via une pipeline CI/CD GitLab.
+								</span>
+							</li>
+						</ul>
+
+						<div class="mt-4 space-y-2">
+							<p class="font-medium text-zinc-800 dark:text-zinc-200">Stack technique :</p>
+							<p class="text-zinc-500 dark:text-zinc-400">Le projet combine trois services indépendants :</p>
+							
+							<ul class="space-y-2 pt-1 pl-2">
+								<li class="flex items-start gap-2 text-zinc-500 dark:text-zinc-400">
+									<span class="text-zinc-300 dark:text-zinc-700 select-none">•</span>
+									<span>
+										<strong class="font-medium text-zinc-800 dark:text-zinc-200">Client :</strong> Vue 3, Pinia, Vue Router, Leaflet, Vite (PWA)
+									</span>
+								</li>
+								<li class="flex items-start gap-2 text-zinc-500 dark:text-zinc-400">
+									<span class="text-zinc-300 dark:text-zinc-700 select-none">•</span>
+									<span>
+										<strong class="font-medium text-zinc-800 dark:text-zinc-200">API de jeu :</strong> Node.js, Express, Axios
+									</span>
+								</li>
+								<li class="flex items-start gap-2 text-zinc-500 dark:text-zinc-400">
+									<span class="text-zinc-300 dark:text-zinc-700 select-none">•</span>
+									<span>
+										<strong class="font-medium text-zinc-800 dark:text-zinc-200">Service utilisateurs :</strong> Java, Spring Boot, OpenAPI/Swagger
+									</span>
+								</li>
+							</ul>
+						</div>
+					</ProjectCard>	
 				</div>
 			</section>
 
