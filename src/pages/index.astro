@@ -729,6 +729,22 @@ fn move_player(
 				<h2 class="text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500 font-semibold">Intérêts & Passions</h2>
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<PassionCard 
+						title="Lecture, séries et cinéma"
+						description="Grand amateur de récits de science-fiction, d'anticipation et d'œuvres complexes."
+						images={[
+							`${import.meta.env.BASE_URL}/images/movie/taxi_driver.jpg`,
+							`${import.meta.env.BASE_URL}/images/movie/blade_runner.jpg`,
+							`${import.meta.env.BASE_URL}/images/movie/eternal_sunshine.jpg`,
+							`${import.meta.env.BASE_URL}/images/movie/akira.jpg`,
+							`${import.meta.env.BASE_URL}/images/movie/come_and_see.jpg`,
+							`${import.meta.env.BASE_URL}/images/movie/whiplash.jpg`
+						]}
+						message="Certains de mes films préférés"
+					>
+						<svg slot="icon" class="w-4 h-4" ...>...</svg>
+					</PassionCard>
+					
+					<PassionCard 
 						title="Création & Dessin"
 						description="Pratique du dessin. Travail du sens du détail visuel et de la créativité."
 					>
@@ -740,13 +756,6 @@ fn move_player(
 						description="Apprentissage du piano et de la guitare. J'apprécie la rigueur logique et la patience nécessaires à la maîtrise d'un instrument."
 					>
 						<svg slot="icon" class="w-4 h-4 text-zinc-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
-					</PassionCard>
-
-					<PassionCard 
-						title="Lecture, séries et cinéma"
-						description="Grand amateur de récits de science-fiction, d'anticipation et d'œuvres complexes."
-					>
-						<svg slot="icon" class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>					
 					</PassionCard>
 
 					<PassionCard 
@@ -798,4 +807,93 @@ fn move_player(
     lightbox?.addEventListener('click', () => {
         lightbox.close();
     });
+
+	const modal = document.getElementById('passion-modal') as HTMLDialogElement;
+    const mImg = document.getElementById('p-modal-img') as HTMLImageElement;
+    const mTitle = document.getElementById('p-modal-title') as HTMLHeadingElement;
+    const mCounter = document.getElementById('p-modal-counter') as HTMLDivElement;
+    
+    const btnClose = document.getElementById('p-modal-close');
+    const btnPrev = document.getElementById('p-modal-prev');
+    const btnNext = document.getElementById('p-modal-next');
+
+    let imagesList: string[] = [];
+    let currentIndex = 0;
+
+    function renderActiveImage() {
+        if (imagesList.length > 0 && mImg && mCounter) {
+            mImg.src = imagesList[currentIndex];
+            mCounter.textContent = `${currentIndex + 1} / ${imagesList.length}`;
+            
+            const display = imagesList.length <= 1 ? 'none' : 'block';
+            if (btnPrev) btnPrev.style.display = display;
+            if (btnNext) btnNext.style.display = display;
+        }
+    }
+
+    document.querySelectorAll('.passion-card').forEach((card) => {
+        card.addEventListener('click', () => {
+            const title = card.getAttribute('data-title') || '';
+            const dataStr = card.getAttribute('data-images');
+            
+            if (dataStr && modal) {
+                imagesList = JSON.parse(dataStr);
+                currentIndex = 0;
+                
+                if (imagesList.length > 0) {
+                    if (mTitle) mTitle.textContent = title;
+                    renderActiveImage();
+                    modal.showModal();
+                }
+            }
+        });
+    });
+
+    btnPrev?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        currentIndex = (currentIndex - 1 + imagesList.length) % imagesList.length;
+        renderActiveImage();
+    });
+
+    btnNext?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        currentIndex = (currentIndex + 1) % imagesList.length;
+        renderActiveImage();
+    });
+
+    btnClose?.addEventListener('click', () => modal?.close());
+    modal?.addEventListener('click', (e) => {
+        if (e.target === modal) modal.close();
+    });
+    
+    document.addEventListener('keydown', (e) => {
+        if (!modal?.open) return;
+        if (e.key === 'ArrowLeft') btnPrev?.click();
+        if (e.key === 'ArrowRight') btnNext?.click();
+    });
 </script>
+
+<dialog id="passion-modal" class="backdrop:bg-black/85 backdrop:backdrop-blur-md bg-transparent p-0 max-w-4xl w-[calc(100%-2rem)] max-h-[90vh] overflow-hidden rounded-2xl outline-hidden fixed inset-0 m-auto shadow-2xl select-none">
+    <div class="relative flex flex-col items-center justify-center p-4 min-h-[40vh]">
+        
+        <button id="p-modal-close" class="absolute top-4 right-4 z-50 p-2 rounded-full bg-zinc-900/80 text-zinc-200 hover:bg-zinc-800 hover:text-white transition-colors cursor-pointer border border-zinc-700/50">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+
+        <h4 id="p-modal-title" class="absolute top-5 left-6 z-50 text-white font-semibold text-base tracking-wide bg-zinc-900/60 px-3 py-1 rounded-full backdrop-blur-xs"></h4>
+
+        <div class="w-full aspect-video flex items-center justify-center max-h-[75vh] my-8">
+            <img id="p-modal-img" src="" alt="" class="max-w-full max-h-[75vh] object-contain rounded-xl shadow-lg" />
+        </div>
+
+        <button id="p-modal-prev" class="absolute left-4 p-3 rounded-full bg-zinc-900/80 text-white hover:bg-zinc-800 transition-colors cursor-pointer z-40 border border-zinc-700/50">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+        </button>
+
+        <button id="p-modal-next" class="absolute right-4 p-3 rounded-full bg-zinc-900/80 text-white hover:bg-zinc-800 transition-colors cursor-pointer z-40 border border-zinc-700/50">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+
+        <div id="p-modal-counter" class="absolute bottom-4 text-zinc-400 text-xs font-mono bg-zinc-900/80 px-3 py-1 rounded-full border border-zinc-800"></div>
+    </div>
+</dialog>
