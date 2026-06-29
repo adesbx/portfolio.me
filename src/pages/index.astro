@@ -741,12 +741,21 @@ fn move_player(
 						]}
 						message="Certains de mes films préférés"
 					>
-						<svg slot="icon" class="w-4 h-4" ...>...</svg>
+						<svg slot="icon" class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>		
 					</PassionCard>
 					
 					<PassionCard 
 						title="Création & Dessin"
 						description="Pratique du dessin. Travail du sens du détail visuel et de la créativité."
+						images={[
+							`${import.meta.env.BASE_URL}/images/drawing/01.png`,
+							`${import.meta.env.BASE_URL}/images/drawing/02.png`,
+							`${import.meta.env.BASE_URL}/images/drawing/03.jpg`,
+							`${import.meta.env.BASE_URL}/images/drawing/04.jpg`,
+							`${import.meta.env.BASE_URL}/images/drawing/05.jpg`,
+							`${import.meta.env.BASE_URL}/images/drawing/06.jpg`
+						]}
+						message="Certains de mes dessins (inspiration pinterest)"
 					>
 						<svg slot="icon" class="w-4 h-4 text-zinc-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.886H3.894l4.948 3.596L6.93 18.368 12 14.772l5.07 3.596-1.912-5.886 4.948-3.596h-6.194L12 3z"/></svg>
 					</PassionCard>
