@@ -4,15 +4,15 @@ const cleanBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
 const scriptPath = `${cleanBase}touhou_-1_rust.js`;
 ---
 
-<div class="relative overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-950 my-4 shadow-md aspect-video w-full group" id="game-container">
+<div class="relative overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-950 my-4 shadow-md aspect-video w-full" id="game-container">
   
   <div id="game-placeholder" class="absolute inset-0 z-10 flex flex-col items-center justify-center transition-all duration-300">
     <img 
       src={`${cleanBase}images/rust_game_01.png`} 
       alt="Gameplay de Rust Game" 
-      class="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:scale-101 transition-transform duration-500" 
+      class="absolute inset-0 w-full h-full object-cover opacity-60" 
     />
-    <div class="absolute inset-0 bg-zinc-950/40 backdrop-blur-xs group-hover:bg-zinc-950/20 transition-all"></div>
+    <div class="absolute inset-0 bg-zinc-950/50 backdrop-blur-xs"></div>
     
     <button 
       id="play-button"
@@ -21,68 +21,116 @@ const scriptPath = `${cleanBase}touhou_-1_rust.js`;
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
         <path fill-rule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clip-rule="evenodd" />
       </svg>
-      Lancer la démo WebGL
+      Jouer à la démo
     </button>
   </div>
 
-  <div id="game-loading" class="hidden absolute inset-0 z-10 flex flex-col items-center justify-center bg-zinc-900 text-white gap-3">
+  <div id="game-loading" class="hidden absolute inset-0 z-10 flex flex-col items-center justify-center bg-zinc-950 text-white gap-3">
     <svg class="animate-spin h-8 w-8 text-emerald-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
     </svg>
-    <p class="text-sm font-medium text-zinc-400">Chargement de Bevy & WebAssembly...</p>
+    <p class="text-sm font-medium text-zinc-400">Chargement du moteur Bevy...</p>
   </div>
 
   <button 
     id="pause-button" 
-    class="hidden absolute top-3 right-3 z-20 p-2 rounded-lg bg-black/60 hover:bg-black/80 text-white border border-zinc-700/50 backdrop-blur-xs transition-all cursor-pointer"
-    title="Suspendre le jeu"
+    class="hidden absolute top-3 right-3 z-20 p-2 rounded-lg bg-black/70 hover:bg-black/90 text-white border border-zinc-700/50 backdrop-blur-xs transition-all cursor-pointer"
+    title="Mettre en pause"
   >
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
       <path fill-rule="evenodd" d="M6.75 5.25a.75.75 0 0 1 .75-.75H9a.75.75 0 0 1 .75.75v13.5a.75.75 0 0 1-.75.75H7.5a.75.75 0 0 1-.75-.75V5.25Zm7.5 0a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v13.5a.75.75 0 0 1-.75.75H15a.75.75 0 0 1-.75-.75V5.25Z" clip-rule="evenodd" />
     </svg>
   </button>
 
+  <!-- 4. LE CANVAS INITIAL (Sert de fallback de secours) -->
   <canvas id="canvas" class="w-full h-full object-contain hidden bg-black" tabindex="0"></canvas>
 </div>
 
 <script define:vars={{ scriptPath }} type="module">
+  const container = document.getElementById('game-container');
   const placeholder = document.getElementById('game-placeholder');
   const loading = document.getElementById('game-loading');
   const pauseBtn = document.getElementById('pause-button');
-  const canvas = document.getElementById('canvas');
-  const playBtn = document.getElementById('play-button');
-
+  
+  let gameCanvas = document.getElementById('canvas');
   let wasmInitialized = false;
+  let audioCtx = null;
 
-  playBtn.addEventListener('click', async () => {
-    placeholder.classList.add('hidden');
-    loading.classList.remove('hidden');
+  const OriginalAudioContext = window.AudioContext || window.webkitAudioContext;
+  if (OriginalAudioContext && !window.AudioContextPatched) {
+    window.AudioContext = function(...args) {
+      const ctx = new OriginalAudioContext(...args);
+      audioCtx = ctx;
+      return ctx;
+    };
+    window.AudioContextPatched = true;
+  }
 
-    try {
-      if (!wasmInitialized) {
-        const wasmModule = await import(scriptPath);
-        await wasmModule.default();
-        wasmInitialized = true;
+  const observer = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      for (const node of mutation.addedNodes) {
+        if (node.tagName === 'CANVAS') {
+          if (gameCanvas && gameCanvas !== node) gameCanvas.remove();
+          
+          gameCanvas = node;
+          gameCanvas.classList.add('w-full', 'h-full', 'object-contain', 'bg-black');
+          gameCanvas.setAttribute('tabindex', '0');
+          container.appendChild(gameCanvas);
+          observer.disconnect();
+        }
       }
-
-      loading.classList.add('hidden');
-      canvas.classList.remove('hidden');
-      pauseBtn.classList.remove('hidden');
-      
-      canvas.focus();
-    } catch (err) {
-      console.error("Erreur de chargement WASM:", err);
-      loading.classList.add('hidden');
-      placeholder.classList.remove('hidden');
     }
   });
 
-  pauseBtn.addEventListener('click', () => {
-    canvas.classList.add('hidden');
+  document.getElementById('play-button').addEventListener('click', async () => {
+    placeholder.classList.add('hidden');
+    
+    if (!wasmInitialized) {
+      loading.classList.remove('hidden');
+      observer.observe(document.body, { childList: true }); 
+
+      try {
+        const wasmModule = await import(scriptPath);
+        await wasmModule.default();
+        wasmInitialized = true;
+        loading.classList.add('hidden');
+      } catch (err) {
+        console.error("Échec du chargement Bevy WASM:", err);
+        loading.classList.add('hidden');
+        placeholder.classList.remove('hidden');
+        return;
+      }
+    }
+
+    if (gameCanvas) gameCanvas.classList.remove('hidden');
+    if (audioCtx && audioCtx.state === 'suspended') {
+      await audioCtx.resume();
+    }
+    
+    pauseBtn.classList.remove('hidden');
+    if (gameCanvas) gameCanvas.focus();
+  });
+
+  pauseBtn.addEventListener('click', async () => {
+    if (gameCanvas) gameCanvas.classList.add('hidden');
     pauseBtn.classList.add('hidden');
     placeholder.classList.remove('hidden');
-    
-    window.focus();
+
+    if (audioCtx && audioCtx.state === 'running') {
+      await audioCtx.suspend();
+    }
+
+    window.focus(); 
   });
 </script>
+
+<style>
+#game-container :global(canvas) {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+  }
+</style>
