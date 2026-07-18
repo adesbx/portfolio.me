@@ -4,58 +4,113 @@ const cleanBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
 const scriptPath = `${cleanBase}touhou_-1_rust.js`;
 ---
 
-<div class="relative overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-950 my-4 shadow-md aspect-video w-full" id="game-container">
-  
-  <div id="game-placeholder" class="absolute inset-0 z-10 flex flex-col items-center justify-center transition-all duration-300">
-    <img 
-      src={`${cleanBase}images/rust_game_01.png`} 
-      alt="Gameplay de Rust Game" 
-      class="absolute inset-0 w-full h-full object-cover opacity-60" 
-    />
-    <div class="absolute inset-0 bg-zinc-950/50 backdrop-blur-xs"></div>
-    
-    <button 
-      id="play-button"
-      class="relative z-20 flex items-center gap-2 px-6 py-3 font-semibold text-white bg-emerald-600 hover:bg-emerald-500 active:scale-95 rounded-xl shadow-lg transition-all cursor-pointer"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
-        <path fill-rule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clip-rule="evenodd" />
+<div 
+  id="touhou-launcher-zone" 
+  class="w-full max-w-md p-5 bg-zinc-900 border border-zinc-800 rounded-2xl shadow-xl my-4 text-left"
+>
+  <div class="flex items-center gap-3 mb-4">
+    <div class="p-2 bg-emerald-950 border border-emerald-800 text-emerald-400 rounded-xl">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M14.25 9.75 16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0 0 20.25 18V6A2.25 2.25 0 0 0 18 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25Z" />
       </svg>
-      Jouer à la démo
-    </button>
+    </div>
+    <div>
+      <h3 class="text-sm font-bold text-white">Touhou -1 Prototype</h3>
+      <p class="text-xs text-zinc-500">Moteur Rust & Bevy (WASM)</p>
+    </div>
   </div>
 
-  <div id="game-loading" class="hidden absolute inset-0 z-10 flex flex-col items-center justify-center bg-zinc-950 text-white gap-3">
+  <div class="bg-zinc-950 border border-zinc-800/80 rounded-xl p-4 mb-4 font-mono text-xs text-zinc-300 shadow-inner">
+    <div class="text-emerald-500 font-bold uppercase tracking-wider text-[10px] mb-2.5 flex items-center gap-1.5">
+      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+      Configuration des contrôles
+    </div>
+    <ul class="space-y-2 text-zinc-400">
+      <li class="flex justify-between border-b border-zinc-900 pb-1.5">
+        <span class="text-zinc-300 font-sans">Se déplacer</span>
+        <span class="text-emerald-400 bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800 font-bold">Z Q S D / Flèches</span>
+      </li>
+      <li class="flex justify-between border-b border-zinc-900 pb-1.5">
+        <span class="text-zinc-300 font-sans">Tirer / Valider</span>
+        <span class="text-emerald-400 bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800 font-bold">Espace</span>
+      </li>
+      <li class="flex justify-between">
+        <span class="text-zinc-300 font-sans">Mode Focus (Ralenti)</span>
+        <span class="text-emerald-400 bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800 font-bold">Shift Gauche</span>
+      </li>
+    </ul>
+  </div>
+
+  <button 
+    id="open-game-btn"
+    class="w-full flex items-center justify-center gap-2 px-5 py-3 font-semibold text-sm text-white bg-emerald-600 hover:bg-emerald-500 active:scale-95 rounded-xl shadow-md transition-all cursor-pointer"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+      <path fill-rule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clip-rule="evenodd" />
+    </svg>
+    Lancer le prototype
+  </button>
+</div>
+
+<div id="bevy-teleport-modal" class="hidden">
+  <div id="game-backdrop" class="fixed inset-0 bg-zinc-950/95 backdrop-blur-md" style="z-index: 99990;"></div>
+
+  <div id="game-modal-loading" class="fixed inset-0 flex flex-col items-center justify-center text-white gap-3 pointer-events-none" style="z-index: 99992;">
     <svg class="animate-spin h-8 w-8 text-emerald-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
     </svg>
-    <p class="text-sm font-medium text-zinc-400">Chargement du moteur Bevy...</p>
+    <p class="text-xs font-mono font-medium text-zinc-400 uppercase tracking-wider">Loading Bevy WebGL2 Engine...</p>
   </div>
 
-  <button 
-    id="pause-button" 
-    class="hidden absolute top-3 right-3 z-20 p-2 rounded-lg bg-black/70 hover:bg-black/90 text-white border border-zinc-700/50 backdrop-blur-xs transition-all cursor-pointer"
-    title="Mettre en pause"
-  >
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
-      <path fill-rule="evenodd" d="M6.75 5.25a.75.75 0 0 1 .75-.75H9a.75.75 0 0 1 .75.75v13.5a.75.75 0 0 1-.75.75H7.5a.75.75 0 0 1-.75-.75V5.25Zm7.5 0a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v13.5a.75.75 0 0 1-.75.75H15a.75.75 0 0 1-.75-.75V5.25Z" clip-rule="evenodd" />
-    </svg>
-  </button>
+  <div id="game-controls" class="fixed top-6 right-6 flex items-center gap-2 bg-zinc-900/95 p-2 rounded-2xl border border-zinc-800 shadow-2xl backdrop-blur-md" style="z-index: 99999;">
+    <button 
+      id="modal-pause-btn" 
+      class="p-2.5 rounded-xl bg-zinc-800/60 hover:bg-zinc-700 text-zinc-200 hover:text-white transition-all cursor-pointer flex items-center justify-center border border-zinc-700/50"
+      title="Couper/Activer le son"
+    >
+      <svg id="icon-pause" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+        <path fill-rule="evenodd" d="M6.75 5.25a.75.75 0 0 1 .75-.75H9a.75.75 0 0 1 .75.75v13.5a.75.75 0 0 1-.75.75H7.5a.75.75 0 0 1-.75-.75V5.25Zm7.5 0a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v13.5a.75.75 0 0 1-.75.75H15a.75.75 0 0 1-.75-.75V5.25Z" clip-rule="evenodd" />
+      </svg>
+      <svg id="icon-play" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 hidden">
+        <path fill-rule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clip-rule="evenodd" />
+      </svg>
+    </button>
 
-  <!-- 4. LE CANVAS INITIAL (Sert de fallback de secours) -->
-  <canvas id="canvas" class="w-full h-full object-contain hidden bg-black" tabindex="0"></canvas>
+    <button 
+      id="modal-close-btn" 
+      class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 active:scale-95 text-white font-bold text-xs shadow-lg shadow-red-950/40 transition-all cursor-pointer border border-red-500/30"
+      title="Fermer le jeu et revenir au site"
+    >
+      <span>Quitter le jeu</span>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+        <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+      </svg>
+    </button>
+  </div>
 </div>
 
+<canvas id="canvas" class="hidden"></canvas>
+
 <script define:vars={{ scriptPath }} type="module">
-  const container = document.getElementById('game-container');
-  const placeholder = document.getElementById('game-placeholder');
-  const loading = document.getElementById('game-loading');
-  const pauseBtn = document.getElementById('pause-button');
+  const launcherZone = document.getElementById('touhou-launcher-zone');
+  const openBtn = document.getElementById('open-game-btn');
+  const modalWrapper = document.getElementById('bevy-teleport-modal');
+  const backdrop = document.getElementById('game-backdrop');
+  const loading = document.getElementById('game-modal-loading');
+  const controls = document.getElementById('game-controls');
+  const pauseBtn = document.getElementById('modal-pause-btn');
+  const closeBtn = document.getElementById('modal-close-btn');
+  const iconPause = document.getElementById('icon-pause');
+  const iconPlay = document.getElementById('icon-play');
   
-  let gameCanvas = document.getElementById('canvas');
+  let gameCanvas = null;
   let wasmInitialized = false;
   let audioCtx = null;
+
+  if (modalWrapper && document.body) {
+    document.body.appendChild(modalWrapper);
+  }
 
   const OriginalAudioContext = window.AudioContext || window.webkitAudioContext;
   if (OriginalAudioContext && !window.AudioContextPatched) {
@@ -71,66 +126,98 @@ const scriptPath = `${cleanBase}touhou_-1_rust.js`;
     for (const mutation of mutations) {
       for (const node of mutation.addedNodes) {
         if (node.tagName === 'CANVAS') {
-          if (gameCanvas && gameCanvas !== node) gameCanvas.remove();
-          
+          const fallback = document.getElementById('canvas');
+          if (fallback && fallback !== node) fallback.remove();
+
           gameCanvas = node;
-          gameCanvas.classList.add('w-full', 'h-full', 'object-contain', 'bg-black');
+          gameCanvas.classList.add('bevy-native-layer');
           gameCanvas.setAttribute('tabindex', '0');
-          container.appendChild(gameCanvas);
           observer.disconnect();
         }
       }
     }
   });
 
-  document.getElementById('play-button').addEventListener('click', async () => {
-    placeholder.classList.add('hidden');
+  openBtn.addEventListener('click', async () => {
+    const dialog = document.querySelector("dialog[open]");
+
+    dialog?.close();
     
+    modalWrapper.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+
     if (!wasmInitialized) {
-      loading.classList.remove('hidden');
-      observer.observe(document.body, { childList: true }); 
+      loading.style.display = 'flex';
+      observer.observe(document.body, { childList: true });
 
       try {
         const wasmModule = await import(scriptPath);
         await wasmModule.default();
         wasmInitialized = true;
-        loading.classList.add('hidden');
+        loading.style.display = 'none';
       } catch (err) {
-        console.error("Échec du chargement Bevy WASM:", err);
-        loading.classList.add('hidden');
-        placeholder.classList.remove('hidden');
+        console.error("Échec du moteur Bevy:", err);
+        loading.style.display = 'none';
+        closeModal();
         return;
       }
     }
 
-    if (gameCanvas) gameCanvas.classList.remove('hidden');
-    if (audioCtx && audioCtx.state === 'suspended') {
-      await audioCtx.resume();
+    if (gameCanvas) {
+      gameCanvas.style.setProperty('display', 'block', 'important');
+      gameCanvas.focus();
     }
     
-    pauseBtn.classList.remove('hidden');
-    if (gameCanvas) gameCanvas.focus();
+    if (audioCtx && audioCtx.state === 'suspended') {
+      await audioCtx.resume();
+      iconPause.classList.remove('hidden');
+      iconPlay.classList.add('hidden');
+    }
   });
 
   pauseBtn.addEventListener('click', async () => {
-    if (gameCanvas) gameCanvas.classList.add('hidden');
-    pauseBtn.classList.add('hidden');
-    placeholder.classList.remove('hidden');
+    if (!audioCtx) return;
+    if (audioCtx.state === 'running') {
+      await audioCtx.suspend();
+      iconPause.classList.add('hidden');
+      iconPlay.classList.remove('hidden');
+    } else if (audioCtx.state === 'suspended') {
+      await audioCtx.resume();
+      iconPause.classList.remove('hidden');
+      iconPlay.classList.add('hidden');
+      if (gameCanvas) gameCanvas.focus();
+    }
+  });
 
+  async function closeModal() {
+    modalWrapper.classList.add('hidden');
+    document.body.style.overflow = '';
+    
+    
+    if (gameCanvas) {
+      gameCanvas.style.setProperty('display', 'none', 'important');
+    }
+    
     if (audioCtx && audioCtx.state === 'running') {
       await audioCtx.suspend();
     }
+    window.focus();
+  }
 
-    window.focus(); 
-  });
+  closeBtn.addEventListener('click', closeModal);
 </script>
 
-<style>
-#game-container :global(canvas) {
-    width: 100% !important;
-    height: 100% !important;
-    max-width: 100% !important;
-    max-height: 100% !important;
-    object-fit: contain !important;
+<style is:global>
+  .bevy-native-layer {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 99995 !important; 
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9);
+    border-radius: 12px;
+    background-color: #000;
+    max-width: 95vw !important;
+    max-height: 85vh !important;
   }
 </style>
