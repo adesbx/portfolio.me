@@ -1,0 +1,88 @@
+---
+const baseUrl = import.meta.env.BASE_URL;
+const cleanBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+const scriptPath = `${cleanBase}touhou_-1_rust.js`;
+---
+
+<div class="relative overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-950 my-4 shadow-md aspect-video w-full group" id="game-container">
+  
+  <div id="game-placeholder" class="absolute inset-0 z-10 flex flex-col items-center justify-center transition-all duration-300">
+    <img 
+      src={`${cleanBase}images/rust_game_01.png`} 
+      alt="Gameplay de Rust Game" 
+      class="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:scale-101 transition-transform duration-500" 
+    />
+    <div class="absolute inset-0 bg-zinc-950/40 backdrop-blur-xs group-hover:bg-zinc-950/20 transition-all"></div>
+    
+    <button 
+      id="play-button"
+      class="relative z-20 flex items-center gap-2 px-6 py-3 font-semibold text-white bg-emerald-600 hover:bg-emerald-500 active:scale-95 rounded-xl shadow-lg transition-all cursor-pointer"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+        <path fill-rule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clip-rule="evenodd" />
+      </svg>
+      Lancer la démo WebGL
+    </button>
+  </div>
+
+  <div id="game-loading" class="hidden absolute inset-0 z-10 flex flex-col items-center justify-center bg-zinc-900 text-white gap-3">
+    <svg class="animate-spin h-8 w-8 text-emerald-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+    <p class="text-sm font-medium text-zinc-400">Chargement de Bevy & WebAssembly...</p>
+  </div>
+
+  <button 
+    id="pause-button" 
+    class="hidden absolute top-3 right-3 z-20 p-2 rounded-lg bg-black/60 hover:bg-black/80 text-white border border-zinc-700/50 backdrop-blur-xs transition-all cursor-pointer"
+    title="Suspendre le jeu"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+      <path fill-rule="evenodd" d="M6.75 5.25a.75.75 0 0 1 .75-.75H9a.75.75 0 0 1 .75.75v13.5a.75.75 0 0 1-.75.75H7.5a.75.75 0 0 1-.75-.75V5.25Zm7.5 0a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v13.5a.75.75 0 0 1-.75.75H15a.75.75 0 0 1-.75-.75V5.25Z" clip-rule="evenodd" />
+    </svg>
+  </button>
+
+  <canvas id="canvas" class="w-full h-full object-contain hidden bg-black" tabindex="0"></canvas>
+</div>
+
+<script define:vars={{ scriptPath }} type="module">
+  const placeholder = document.getElementById('game-placeholder');
+  const loading = document.getElementById('game-loading');
+  const pauseBtn = document.getElementById('pause-button');
+  const canvas = document.getElementById('canvas');
+  const playBtn = document.getElementById('play-button');
+
+  let wasmInitialized = false;
+
+  playBtn.addEventListener('click', async () => {
+    placeholder.classList.add('hidden');
+    loading.classList.remove('hidden');
+
+    try {
+      if (!wasmInitialized) {
+        const wasmModule = await import(scriptPath);
+        await wasmModule.default();
+        wasmInitialized = true;
+      }
+
+      loading.classList.add('hidden');
+      canvas.classList.remove('hidden');
+      pauseBtn.classList.remove('hidden');
+      
+      canvas.focus();
+    } catch (err) {
+      console.error("Erreur de chargement WASM:", err);
+      loading.classList.add('hidden');
+      placeholder.classList.remove('hidden');
+    }
+  });
+
+  pauseBtn.addEventListener('click', () => {
+    canvas.classList.add('hidden');
+    pauseBtn.classList.add('hidden');
+    placeholder.classList.remove('hidden');
+    
+    window.focus();
+  });
+</script>
