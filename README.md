@@ -1,18 +1,46 @@
-# Portfolio Personnel
+# Astro Starter Kit: Basics
 
-Mon portfolio en ligne, conçu pour présenter mes projets de développement, mes compétences et mes passions de manière moderne, épurée et performante.
+```sh
+npm create astro@latest -- --template basics
+```
 
+> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
-## 🚀 Technologies utilisées
+## 🚀 Project Structure
 
-* **Framework :** [Astro](https://astro.build/) (Génération de site statique ultra-rapide)
-* **Styles :** [Tailwind CSS](https://tailwindcss.com/) (Design épuré basé sur la palette *Zinc*)
-* **Déploiement :** GitHub Pages
+Inside of your Astro project, you'll see the following folders and files:
 
+```text
+/
+├── public/
+│   └── favicon.svg
+├── src
+│   ├── assets
+│   │   └── astro.svg
+│   ├── components
+│   │   └── Welcome.astro
+│   ├── layouts
+│   │   └── Layout.astro
+│   └── pages
+│       └── index.astro
+└── package.json
+```
 
+To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
 
-## Licence
+## 🧞 Commands
 
-© 2026 Arthur DESBIAUX. **Tous droits réservés.**
+All commands are run from the root of the project, from a terminal:
 
-Le code source de ce portfolio ainsi que les ressources visuelles associées (dessins, créations personnelles) sont ma propriété exclusive. Toute copie, modification ou redistribution non autorisée est interdite.
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `npm install`             | Installs dependencies                            |
+| `npm run dev`             | Starts local dev server at `localhost:4321`      |
+| `npm run build`           | Build your production site to `./dist/`          |
+| `npm run preview`         | Preview your build locally, before deploying     |
+| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `npm run astro -- --help` | Get help using the Astro CLI                     |
+
+## 👀 Want to learn more?
+
+Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
